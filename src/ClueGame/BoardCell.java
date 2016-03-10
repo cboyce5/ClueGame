@@ -1,4 +1,4 @@
-package ClueGame;
+package clueGame;
 
 public class BoardCell {
 	private int row;
@@ -23,11 +23,17 @@ public class BoardCell {
 	}
 	
 	public boolean isRoom(){
-		return false;
+		if (initial == 'W' || initial == 'X') {
+			return false;
+		}
+		return true;
 	}
 	
 	public boolean isDoorway(){
-		return isDoor;
+		if (isRoom() && direction != DoorDirection.NONE) {
+			return true;
+		}
+		return false;
 	}
 	
 	public DoorDirection getDoorDirection(){

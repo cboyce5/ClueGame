@@ -1,4 +1,4 @@
-package ClueGame;
+package clueGame;
 
 public class BadConfigFormatException extends Exception{
 

@@ -1,4 +1,4 @@
-package ClueGame;
+package clueGame;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -34,7 +34,7 @@ public class Board {
 	public Board(){
 		super();
 		this.boardConfigFile = "ClueLayout.csv";
-		this.roomConfigFile = "ClueLEgend.txt";
+		this.roomConfigFile = "ClueLegend.txt";
 	}
 	
 	public void calcAdjacencies(){
@@ -63,18 +63,29 @@ public class Board {
 				}
 			
 				else if(board[i][j].getInitial() == 'W'){
-					if(j != numRows - 1 && (board[i][j+1].getDoorDirection() == DoorDirection.LEFT || board[i][j+1].getInitial() == 'W')){
-						list.add(board[i][j+1]);
+					if (j != 0) {
+						if((board[i][j-1].getDoorDirection() == DoorDirection.RIGHT || board[i][j-1].getInitial() == 'W')){
+							list.add(board[i][j-1]);
+						}
+						
 					}
-					if(i != numRows - 1 && (board[i+1][j].getDoorDirection() == DoorDirection.UP|| board[i+1][j].getInitial() == 'W')){
-						list.add(board[i+1][j]);
+					if (j != numColumns-1) {
+						if((board[i][j+1].getDoorDirection() == DoorDirection.LEFT || board[i][j+1].getInitial() == 'W')){
+							list.add(board[i][j+1]);
+						}
 					}
-					if(i != 0 && (board[i-1][j].getDoorDirection() == DoorDirection.DOWN || board[i-1][j].getInitial() == 'W')){
-						list.add(board[i-1][j]);
+					if (i != 0) {
+						if((board[i-1][j].getDoorDirection() == DoorDirection.DOWN || board[i-1][j].getInitial() == 'W')){
+							list.add(board[i-1][j]);
+						}
 					}
-					if(j!=0 && (board[i][j-1].getDoorDirection() == DoorDirection.RIGHT || board[i][j-1].getInitial() == 'W')){
-						list.add(board[i][j-1]);
+					if (i != numRows-1) {
+						if((board[i+1][j].getDoorDirection() == DoorDirection.UP|| board[i+1][j].getInitial() == 'W')){
+							list.add(board[i+1][j]);
+						}
 					}
+					
+					
 					
 				}
 				adjMtx.put(board[i][j], list);
@@ -115,7 +126,7 @@ public class Board {
 		{
 			if (visited.contains(cell)) continue;
 			visited.add(cell);
-			if(numSteps == 1) targets.add(cell);
+			if(numSteps == 1 || cell.isDoorway()) targets.add(cell);
 			else findAllTargets(cell, numSteps - 1);
 			visited.remove(cell);
 		}
@@ -201,11 +212,11 @@ public class Board {
 		return rooms;
 	}
 
-	public int getRow() {
+	public int getNumRows() {
 		return numRows;
 	}
 
-	public int getColumn() {
+	public int getNumColumns() {
 		return numColumns;
 	}
 	

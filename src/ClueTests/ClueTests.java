@@ -1,4 +1,4 @@
-package ClueTests;
+package clueTests;
 
 import static org.junit.Assert.*;
 
@@ -8,7 +8,8 @@ import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
-import ClueGame.*;
+
+import clueGame.*;
 
 public class ClueTests {
 	private static Board board;
@@ -38,8 +39,8 @@ public class ClueTests {
 	@Test
 	public void testBoardDimensions() {
 		// Ensure we have the proper number of rows and columns
-		assertEquals(NUM_ROWS, board.getRow());
-		assertEquals(NUM_COLUMNS, board.getColumn());		
+		assertEquals(NUM_ROWS, board.getNumRows());
+		assertEquals(NUM_COLUMNS, board.getNumColumns());		
 	}
 	
 	@Test

@@ -1,14 +1,14 @@
-package ClueTests;
+package clueTests;
 
 import static org.junit.Assert.*;
 
 import java.util.LinkedList;
 import java.util.Set;
 
-import ClueGame.*;
-
 import org.junit.Before;
 import org.junit.Test;
+
+import clueGame.*;
 
 public class TargetTests {
 	private static Board board;
