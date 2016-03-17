@@ -19,7 +19,7 @@ public class ClueTests {
 	
 	@Before
 	public void setup() throws IOException{
-		board = new Board();
+		board = new Board("layout.csv", "ClueLegend.txt");
 		board.initialize();
 		System.out.println("In @Before");
 	}

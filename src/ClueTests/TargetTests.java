@@ -15,7 +15,7 @@ public class TargetTests {
 
 	@Before
 	public void setUp() {
-		board = new Board("ClueLayout.csv", "ClueLegend.txt");
+		board = new Board("layout.csv", "ClueLegend.txt");
 		board.initialize();
 	}
 
