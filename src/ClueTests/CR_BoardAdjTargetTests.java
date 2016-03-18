@@ -1,4 +1,4 @@
-package clueTests;
+package ClueTests;
 
 import java.util.LinkedList;
 import java.util.Set;
@@ -9,8 +9,8 @@ import static org.junit.Assert.*;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import clueGame.Board;
-import clueGame.BoardCell;
+import ClueGame.Board;
+import ClueGame.BoardCell;
 
 public class CR_BoardAdjTargetTests {
 	// We make the Board static because we can load it one time and 
