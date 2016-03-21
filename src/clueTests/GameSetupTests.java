@@ -2,13 +2,14 @@ package clueTests;
 
 import static org.junit.Assert.*;
 
+import org.junit.Before;
 import org.junit.Test;
 
 public class GameSetupTests {
 
-	@Test
-	public void test() {
-		fail("Not yet implemented");
+	@Before
+	public void setup() {
+		
 	}
 
 }

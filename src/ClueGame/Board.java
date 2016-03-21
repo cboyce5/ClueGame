@@ -37,6 +37,22 @@ public class Board {
 		this.roomConfigFile = "ClueLegend.txt";
 	}
 	
+	public boolean checkAccusation(Solution accusation) {
+		return true;
+	}
+	
+	public void selectAnaswer() {
+		
+	}
+	
+	public void loadConfigFiles() {
+		
+	}
+	
+	public Card handleSuggestion(Solution suggestion, String accusingPlayer,BoardCell clicked) {
+		Card c = new Card();
+		return c;
+	}
 	public void calcAdjacencies(){
 		adjMtx = new HashMap<BoardCell, LinkedList<BoardCell>>();
 		for(int i = 0; i < numRows; i++){		
