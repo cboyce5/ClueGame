@@ -1,0 +1,5 @@
+commit 63952dcb8e7744851ec0c23348570d2dd5418c9e
+Author: Marcelo Gonzales <magonzal@mymail.mines.edu>
+Date:   Tue Mar 1 16:52:12 2016 -0700
+
+    Finished Part 3
