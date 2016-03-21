@@ -22,6 +22,15 @@ public class Board {
 	private String roomConfigFile;
 	private ArrayList<String> listBoard;
 	
+	private ArrayList<ComputerPlayer> computerPlayers;
+	public ArrayList<ComputerPlayer> getComputerPlayers() {
+		return computerPlayers;
+	}
+
+	private HumanPlayer human;
+	private String cardPlayerConfigFile = "people.txt";
+	private String cardRoomsConfigFile = "rooms.txt";
+	private String cardWeaponConfigFile = "weapons.txt";
 	
 	
 	public Board(String layout, String legend){
@@ -234,6 +243,10 @@ public class Board {
 
 	public int getNumColumns() {
 		return numColumns;
+	}
+	
+	public HumanPlayer getHumanPlayer() {
+		return human;
 	}
 	
 }

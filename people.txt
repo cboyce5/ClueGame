@@ -1,9 +1,9 @@
-Miss Scarlet, Red
-Colonel Mustard, Yellow
-Mrs White, White
-Mr Green, Green
-Mrs Peacock, Blue
-Professor Plum, Purple
-Mr Boddy, Black
-Rusty Ryan, Orange
-Mrs Peach, Pink
+Miss Scarlet, Red , 7, 5
+Colonel Mustard, Yellow , 8, 5
+Mrs White, White , 9, 5
+Mr Green, Green , 10, 5
+Mrs Peacock, Blue , 11, 5
+Professor Plum, Purple , 12, 5
+Mr Boddy, Black , 13, 5
+Rusty Ryan, Orange , 14, 5
+Ms Peach, Pink , 15, 5

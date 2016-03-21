@@ -12,4 +12,22 @@ public class Player {
 		Card c = new Card();
 		return c;
 	}
+
+	//For testing purposes only
+	public String getPlayerName() {
+		return playerName;
+	}
+
+	public int getRow() {
+		return row;
+	}
+
+	public int getColumn() {
+		return column;
+	}
+
+	public Color getColor() {
+		return color;
+	}
+	
 }
