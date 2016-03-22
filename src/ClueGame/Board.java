@@ -25,11 +25,13 @@ public class Board {
 	private String roomConfigFile;
 	private ArrayList<String> listBoard;
 	private ArrayList<Card> deck;
+	
 	private ArrayList<ComputerPlayer> computerPlayers;
 	private HumanPlayer human;
 	private String cardPlayerConfigFile = "people.txt";
 	private String cardRoomsConfigFile = "rooms.txt";
 	private String cardWeaponConfigFile = "weapons.txt";
+	
 	private String personSolution;
 	private String roomSolution;
 	private String weaponSolution;
@@ -68,14 +70,15 @@ public class Board {
 		ArrayList<Card> dealDeck = deck;
 		int count = 0;
 		Random rn = new Random();
+		
 		while (dealDeck.size() != 0) {
 			int index = rn.nextInt(dealDeck.size());
-			if (count % 10 == 0) {
+			if (count % 9 == 0) {
 				human.getCardsInHand().add(dealDeck.get(index));
 				dealDeck.remove(index);
 			}
 			else {
-				computerPlayers.get((count-1) % 10).getCardsInHand().add(dealDeck.get(index));
+				computerPlayers.get((count-1) % 9).getCardsInHand().add(dealDeck.get(index));
 				dealDeck.remove(index);
 			}
 			count++;
@@ -83,9 +86,6 @@ public class Board {
 	}
 	
 	public void loadConfigFiles() {
-		//human player creation
-		human = new HumanPlayer("Human",5,5,Color.CYAN);
-		
 		//arraylist creation(s)
 		computerPlayers = new ArrayList<ComputerPlayer>();
 		deck = new ArrayList<Card>();
@@ -100,6 +100,7 @@ public class Board {
 			System.out.println(e.getMessage());
 		}
 		String input = "";
+		int count = 0;
 		while (in.hasNextLine()) {
 			input = in.nextLine();
 			String[] array = input.split(",");
@@ -112,11 +113,17 @@ public class Board {
 			try {
 			    Field field = Class.forName("java.awt.Color").getField(array[1]);
 			    color = (Color)field.get(null);
-			    ComputerPlayer tempPlayer = new ComputerPlayer(name,row,col,color);
-			    computerPlayers.add(tempPlayer);
+			    if (count == 0) {
+			    	human = new HumanPlayer(name,row,col,color);
+			    }
+			    else {
+			    	ComputerPlayer tempPlayer = new ComputerPlayer(name,row,col,color);
+				    computerPlayers.add(tempPlayer);
+			    }
 			} catch (Exception e) {
 			    System.out.println("Color not valid on people config file.");
 			}
+			count++;
 		}
 		
 		//Room cards added to deck

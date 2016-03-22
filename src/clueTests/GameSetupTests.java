@@ -39,21 +39,21 @@ public class GameSetupTests {
 	@Test
 	public void testLoadPeople() {
 		//Test human player
-		assertEquals(board.getHumanPlayer().getPlayerName(), "Human");
-		assertEquals(board.getHumanPlayer().getColor(), Color.CYAN);
-		assertEquals(board.getHumanPlayer().getRow(), 5);
+		assertEquals(board.getHumanPlayer().getPlayerName(), "Miss Scarlet");
+		assertEquals(board.getHumanPlayer().getColor(), Color.RED);
+		assertEquals(board.getHumanPlayer().getRow(), 7);
 		assertEquals(board.getHumanPlayer().getColumn(), 5);
 		
 		//Test 2 computer players (one from each end of config file)
-		assertEquals(board.getComputerPlayers().get(0).getPlayerName(), "Miss Scarlet");
-		assertEquals(board.getComputerPlayers().get(0).getColor(), Color.RED);
-		assertEquals(board.getComputerPlayers().get(0).getRow(), 7);
+		assertEquals(board.getComputerPlayers().get(0).getPlayerName(), "Colonel Mustard");
+		assertEquals(board.getComputerPlayers().get(0).getColor(), Color.YELLOW);
+		assertEquals(board.getComputerPlayers().get(0).getRow(), 8);
 		assertEquals(board.getComputerPlayers().get(0).getColumn(), 5);
 		
-		assertEquals(board.getComputerPlayers().get(8).getPlayerName(), "Ms Peach");
-		assertEquals(board.getComputerPlayers().get(8).getColor(), Color.PINK);
-		assertEquals(board.getComputerPlayers().get(8).getRow(), 15);
-		assertEquals(board.getComputerPlayers().get(8).getColumn(), 5);
+		assertEquals(board.getComputerPlayers().get(7).getPlayerName(), "Ms Peach");
+		assertEquals(board.getComputerPlayers().get(7).getColor(), Color.PINK);
+		assertEquals(board.getComputerPlayers().get(7).getRow(), 15);
+		assertEquals(board.getComputerPlayers().get(7).getColumn(), 5);
 	}
 	
 	/*Testing that cards are all loaded correctly
