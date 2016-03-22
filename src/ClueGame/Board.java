@@ -88,6 +88,8 @@ public class Board {
 			    System.out.println("Color not valid on people config file.");
 			}
 		}
+		
+		//Room cards added to deck
 		try{
 			reader = new FileReader(cardRoomsConfigFile);
 			in = new Scanner(reader);
@@ -97,6 +99,19 @@ public class Board {
 		while (in.hasNextLine()) {
 			input = in.nextLine();
 			Card newCard = new Card(input, CardType.ROOM);
+			deck.add(newCard);
+		}
+		
+		//Weapon cards added to deck
+		try{
+			reader = new FileReader(cardWeaponConfigFile);
+			in = new Scanner(reader);
+		}catch(FileNotFoundException e){
+			System.out.println(e.getMessage());
+		}
+		while (in.hasNextLine()) {
+			input = in.nextLine();
+			Card newCard = new Card(input, CardType.WEAPON);
 			deck.add(newCard);
 		}
 		

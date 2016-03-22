@@ -3,7 +3,6 @@ package clueTests;
 import static org.junit.Assert.*;
 
 import java.awt.Color;
-import java.util.ArrayList;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -14,9 +13,9 @@ import clueGame.CardType;
 
 public class GameSetupTests {
 	private static Board board;
-	private static Card mrGreen;
-	private static Card theHall;
-	private static Card theCandlestick;
+	private Card mrGreen;
+	private Card theHall;
+	private Card theCandlestick;
 	public static int NUM_CARDS = 27;
 	public static int NUM_PEOPLE = 9;
 	public static int NUM_ROOMS = 9;

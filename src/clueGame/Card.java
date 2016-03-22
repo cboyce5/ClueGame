@@ -1,6 +1,7 @@
 package clueGame;
 
 public class Card {
+
 	private String cardName;
 	private CardType cardType;
 	
@@ -10,8 +11,15 @@ public class Card {
 		this.cardType = cardType;
 	}
 
-	public boolean equals() {
-		return true;
+	public boolean equals(Object o) {
+		boolean equal = false;
+		if (o != null && o instanceof Card)
+        {
+            equal = this.cardName == ((Card)o).cardName;
+            equal = this.cardType == ((Card)o).cardType;
+        }
+		return equal;
+
 	}
 
 	//Testing purposes only
