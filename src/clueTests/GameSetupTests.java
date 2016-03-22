@@ -106,6 +106,7 @@ public class GameSetupTests {
 	 */
 	@Test
 	public void testDeal() {
+		board.deal();
 		//Test that all cards are dealt
 		int cardsDealt = 0;
 		for (int i = 0; i < board.getComputerPlayers().size(); i++) {
@@ -115,33 +116,35 @@ public class GameSetupTests {
 		assertEquals(NUM_CARDS,cardsDealt);
 		
 		//Test that all players have roughly the same number of cards
-		int min = 0;
-		int max = 0;
-		for (int i = 0; i < board.getComputerPlayers().size(); i++) {
-			if (min < board.getComputerPlayers().get(i).getCardsInHand().size())
+		int min = board.getComputerPlayers().get(0).getCardsInHand().size();
+		int max = board.getComputerPlayers().get(0).getCardsInHand().size();
+		for (int i = 1; i < board.getComputerPlayers().size(); i++) {
+			if (min > board.getComputerPlayers().get(i).getCardsInHand().size())
 				min = board.getComputerPlayers().get(i).getCardsInHand().size();
-			if (max > board.getComputerPlayers().get(i).getCardsInHand().size())
+			if (max < board.getComputerPlayers().get(i).getCardsInHand().size())
 				max = board.getComputerPlayers().get(i).getCardsInHand().size();
 		}
 		assertTrue(max == min || max == min + 1);
 		
 		//Test that one card is not given to two different players (duplicate checking)
-		int greenCount = 0;
-		int hallCount = 0;
-		int candleCount = 0;
+		int sameCard = 0;
+		String c = board.getHumanPlayer().getCardsInHand().get(0).getCardName();
+		String c1 = board.getHumanPlayer().getCardsInHand().get(1).getCardName();
+		String c2 = board.getHumanPlayer().getCardsInHand().get(2).getCardName();
 		for (int i = 0; i < board.getComputerPlayers().size(); i++) {
 			for (int j = 0; j < board.getComputerPlayers().get(i).getCardsInHand().size(); j++) {
-				if (board.getComputerPlayers().get(i).getCardsInHand().get(j) == mrGreen)
-					greenCount++;
-				if (board.getComputerPlayers().get(i).getCardsInHand().get(j) == theHall)
-					hallCount++;
-				if (board.getComputerPlayers().get(i).getCardsInHand().get(j) == theCandlestick)
-					candleCount++;
+				if (board.getComputerPlayers().get(i).getCardsInHand().get(j).getCardName() == c) {
+					sameCard++;
+				}
+				if (board.getComputerPlayers().get(i).getCardsInHand().get(j).getCardName() == c1) {
+					sameCard++;
+				}
+				if (board.getComputerPlayers().get(i).getCardsInHand().get(j).getCardName() == c2) {
+					sameCard++;
+				}
 			}
 		}
-		assertEquals(greenCount,1);
-		assertEquals(hallCount,1);
-		assertEquals(candleCount,1);
+		assertEquals(sameCard,0);
 	}
 
 }

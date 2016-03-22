@@ -2,6 +2,11 @@ package clueGame;
 
 public class Card {
 
+	@Override
+	public String toString() {
+		return "Card [cardName=" + cardName + ", cardType=" + cardType + "]";
+	}
+
 	private String cardName;
 	private CardType cardType;
 	
@@ -11,6 +16,7 @@ public class Card {
 		this.cardType = cardType;
 	}
 
+	@Override
 	public boolean equals(Object o) {
 		boolean equal = false;
 		if (o != null && o instanceof Card)
@@ -21,6 +27,7 @@ public class Card {
 		return equal;
 
 	}
+	
 
 	//Testing purposes only
 	public String getCardName() {

@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -48,8 +49,27 @@ public class Board {
 		return true;
 	}
 	
-	public void selectAnaswer() {
+	public void selectAnswer() {
 		
+	}
+	
+	public void deal() {
+		ArrayList<Card> dealDeck = deck;
+		int count = 0;
+		Random rn = new Random();
+		while (dealDeck.size() != 0) {
+			int index = rn.nextInt(dealDeck.size());
+			System.out.println(dealDeck.get(index));
+			if (count % 10 == 0) {
+				human.getCardsInHand().add(dealDeck.get(index));
+				dealDeck.remove(index);
+			}
+			else {
+				computerPlayers.get((count-1) % 10).getCardsInHand().add(dealDeck.get(index));
+				dealDeck.remove(index);
+			}
+			count++;
+		}
 	}
 	
 	public void loadConfigFiles() {
@@ -121,6 +141,7 @@ public class Board {
 		Card c = new Card("",CardType.ROOM);
 		return c;
 	}
+	
 	public void calcAdjacencies(){
 		adjMtx = new HashMap<BoardCell, LinkedList<BoardCell>>();
 		for(int i = 0; i < numRows; i++){		

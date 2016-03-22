@@ -26,6 +26,7 @@ public class Player {
 		this.row = row;
 		this.column = column;
 		this.color = color;
+		cardsInHand = new ArrayList<Card>();
 	}
 
 	public int getRow() {
