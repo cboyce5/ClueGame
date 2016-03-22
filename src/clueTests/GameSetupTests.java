@@ -31,7 +31,11 @@ public class GameSetupTests {
 		board.loadConfigFiles();
 	}
 	
-	//Testing that people are loaded correctly
+	/*Testing that people are loaded correctly
+	 *Tests the following things:
+	 *	-human player and 2 computer players have correct name, color and starting location
+	 *	 as specified by the config file
+	 */
 	@Test
 	public void testLoadPeople() {
 		//Test human player
@@ -52,6 +56,12 @@ public class GameSetupTests {
 		assertEquals(board.getComputerPlayers().get(8).getColumn(), 5);
 	}
 	
+	/*Testing that cards are all loaded correctly
+	 *Tests the following things:
+	 *	-Deck contains correct number of total cards
+	 *	-Deck contains correct amount of each type of card
+	 *	-Deck contains specific cards that we know should exist in deck
+	 */
 	@Test
 	public void testLoadCards() {
 		//Test the deck contains the correct total number of cards
@@ -86,6 +96,52 @@ public class GameSetupTests {
 		assertTrue(board.getDeck().contains(theCandlestick));
 		
 		
+	}
+	
+	/*Test that the deal is valid
+	 *Tests the following things:
+	 *	-All cards from the original deck are dealt
+	 *	-All players have roughly the same number of cards (+/- 1)
+	 *	-No card is in multiple players hand (no duplicates in dealing)
+	 */
+	@Test
+	public void testDeal() {
+		//Test that all cards are dealt
+		int cardsDealt = 0;
+		for (int i = 0; i < board.getComputerPlayers().size(); i++) {
+			cardsDealt += board.getComputerPlayers().get(i).getCardsInHand().size();
+		}
+		cardsDealt += board.getHumanPlayer().getCardsInHand().size();
+		assertEquals(NUM_CARDS,cardsDealt);
+		
+		//Test that all players have roughly the same number of cards
+		int min = 0;
+		int max = 0;
+		for (int i = 0; i < board.getComputerPlayers().size(); i++) {
+			if (min < board.getComputerPlayers().get(i).getCardsInHand().size())
+				min = board.getComputerPlayers().get(i).getCardsInHand().size();
+			if (max > board.getComputerPlayers().get(i).getCardsInHand().size())
+				max = board.getComputerPlayers().get(i).getCardsInHand().size();
+		}
+		assertTrue(max == min || max == min + 1);
+		
+		//Test that one card is not given to two different players (duplicate checking)
+		int greenCount = 0;
+		int hallCount = 0;
+		int candleCount = 0;
+		for (int i = 0; i < board.getComputerPlayers().size(); i++) {
+			for (int j = 0; j < board.getComputerPlayers().get(i).getCardsInHand().size(); j++) {
+				if (board.getComputerPlayers().get(i).getCardsInHand().get(j) == mrGreen)
+					greenCount++;
+				if (board.getComputerPlayers().get(i).getCardsInHand().get(j) == theHall)
+					hallCount++;
+				if (board.getComputerPlayers().get(i).getCardsInHand().get(j) == theCandlestick)
+					candleCount++;
+			}
+		}
+		assertEquals(greenCount,1);
+		assertEquals(hallCount,1);
+		assertEquals(candleCount,1);
 	}
 
 }
