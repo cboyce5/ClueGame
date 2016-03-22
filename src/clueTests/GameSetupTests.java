@@ -1,4 +1,4 @@
-package clueTests;
+package ClueTests;
 
 import static org.junit.Assert.*;
 
@@ -7,9 +7,9 @@ import java.awt.Color;
 import org.junit.Before;
 import org.junit.Test;
 
-import clueGame.Board;
-import clueGame.Card;
-import clueGame.CardType;
+import ClueGame.Board;
+import ClueGame.Card;
+import ClueGame.CardType;
 
 public class GameSetupTests {
 	private static Board board;

@@ -1,4 +1,4 @@
-package clueGame;
+package ClueGame;
 
 import java.awt.Color;
 import java.util.ArrayList;

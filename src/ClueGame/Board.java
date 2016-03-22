@@ -1,4 +1,4 @@
-package clueGame;
+package ClueGame;
 import java.awt.Color;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -30,7 +30,9 @@ public class Board {
 	private String cardPlayerConfigFile = "people.txt";
 	private String cardRoomsConfigFile = "rooms.txt";
 	private String cardWeaponConfigFile = "weapons.txt";
-	
+	private String personSolution;
+	private String roomSolution;
+	private String weaponSolution;
 	
 	public Board(String layout, String legend){
 		super();
@@ -45,8 +47,17 @@ public class Board {
 		this.roomConfigFile = "ClueLegend.txt";
 	}
 	
-	public boolean checkAccusation(Solution accusation) {
-		return true;
+	public boolean checkAccusation(Solution a) {
+		if (a.person == personSolution && a.room == roomSolution && a.weapon == weaponSolution) {
+			return true;
+		}
+		return false;
+	}
+	
+	public void setSolution(Solution attempt) {
+		this.personSolution = attempt.person;
+		this.roomSolution = attempt.room;
+		this.weaponSolution = attempt.weapon;
 	}
 	
 	public void selectAnswer() {
@@ -59,7 +70,6 @@ public class Board {
 		Random rn = new Random();
 		while (dealDeck.size() != 0) {
 			int index = rn.nextInt(dealDeck.size());
-			System.out.println(dealDeck.get(index));
 			if (count % 10 == 0) {
 				human.getCardsInHand().add(dealDeck.get(index));
 				dealDeck.remove(index);

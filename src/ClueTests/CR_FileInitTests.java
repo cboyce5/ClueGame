@@ -1,4 +1,4 @@
-package clueTests;
+package ClueTests;
 
 // Doing a static import allows me to write assertEquals rather than
 // Assert.assertEquals
@@ -11,11 +11,11 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import clueGame.BadConfigFormatException;
-import clueGame.Board;
-import clueGame.BoardCell;
+import ClueGame.BadConfigFormatException;
+import ClueGame.Board;
+import ClueGame.BoardCell;
 //import clueGame.ClueGame;
-import clueGame.DoorDirection;
+import ClueGame.DoorDirection;
 
 public class CR_FileInitTests {
 	// Constants that I will use to test whether the file was loaded correctly

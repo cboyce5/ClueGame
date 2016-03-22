@@ -1,4 +1,4 @@
-package clueTests;
+package ClueTests;
 
 import static org.junit.Assert.*;
 
@@ -9,7 +9,7 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 
-import clueGame.*;
+import ClueGame.*;
 
 public class ClueTests {
 	private static Board board;
