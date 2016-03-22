@@ -23,12 +23,8 @@ public class Board {
 	private String boardConfigFile;
 	private String roomConfigFile;
 	private ArrayList<String> listBoard;
-	
+	private ArrayList<Card> deck;
 	private ArrayList<ComputerPlayer> computerPlayers;
-	public ArrayList<ComputerPlayer> getComputerPlayers() {
-		return computerPlayers;
-	}
-
 	private HumanPlayer human;
 	private String cardPlayerConfigFile = "people.txt";
 	private String cardRoomsConfigFile = "rooms.txt";
@@ -57,10 +53,16 @@ public class Board {
 	}
 	
 	public void loadConfigFiles() {
+		//human player creation
 		human = new HumanPlayer("Human",5,5,Color.CYAN);
+		
+		//arraylist creation(s)
 		computerPlayers = new ArrayList<ComputerPlayer>();
+		deck = new ArrayList<Card>();
 		FileReader reader = null;
 		Scanner in = null;
+		
+		//People objects and people card creation
 		try{
 			reader = new FileReader(cardPlayerConfigFile);
 			in = new Scanner(reader);
@@ -71,6 +73,8 @@ public class Board {
 		while (in.hasNextLine()) {
 			input = in.nextLine();
 			String[] array = input.split(",");
+			Card newCard = new Card(array[0], CardType.PERSON);
+			deck.add(newCard);
 			String name = array[0];
 			int row = Integer.parseInt(array[2]);
 			int col = Integer.parseInt(array[3]);
@@ -84,10 +88,22 @@ public class Board {
 			    System.out.println("Color not valid on people config file.");
 			}
 		}
+		try{
+			reader = new FileReader(cardRoomsConfigFile);
+			in = new Scanner(reader);
+		}catch(FileNotFoundException e){
+			System.out.println(e.getMessage());
+		}
+		while (in.hasNextLine()) {
+			input = in.nextLine();
+			Card newCard = new Card(input, CardType.ROOM);
+			deck.add(newCard);
+		}
+		
 	}
 	
 	public Card handleSuggestion(Solution suggestion, String accusingPlayer,BoardCell clicked) {
-		Card c = new Card();
+		Card c = new Card("",CardType.ROOM);
 		return c;
 	}
 	public void calcAdjacencies(){
@@ -275,6 +291,14 @@ public class Board {
 	
 	public HumanPlayer getHumanPlayer() {
 		return human;
+	}
+	
+	public ArrayList<Card> getDeck() {
+		return deck;
+	}
+	
+	public ArrayList<ComputerPlayer> getComputerPlayers() {
+		return computerPlayers;
 	}
 	
 }

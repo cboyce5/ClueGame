@@ -9,7 +9,7 @@ public class Player {
 	private Color color;
 	
 	public Card disproveSuggestion(Solution suggestion) {
-		Card c = new Card();
+		Card c = new Card("",CardType.ROOM);
 		return c;
 	}
 
