@@ -1,6 +1,8 @@
 package clueGame;
+import java.awt.Color;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -55,7 +57,33 @@ public class Board {
 	}
 	
 	public void loadConfigFiles() {
-		
+		human = new HumanPlayer("Human",5,5,Color.CYAN);
+		computerPlayers = new ArrayList<ComputerPlayer>();
+		FileReader reader = null;
+		Scanner in = null;
+		try{
+			reader = new FileReader(cardPlayerConfigFile);
+			in = new Scanner(reader);
+		}catch(FileNotFoundException e){
+			System.out.println(e.getMessage());
+		}
+		String input = "";
+		while (in.hasNextLine()) {
+			input = in.nextLine();
+			String[] array = input.split(",");
+			String name = array[0];
+			int row = Integer.parseInt(array[2]);
+			int col = Integer.parseInt(array[3]);
+			Color color;
+			try {
+			    Field field = Class.forName("java.awt.Color").getField(array[1]);
+			    color = (Color)field.get(null);
+			    ComputerPlayer tempPlayer = new ComputerPlayer(name,row,col,color);
+			    computerPlayers.add(tempPlayer);
+			} catch (Exception e) {
+			    System.out.println("Color not valid on people config file.");
+			}
+		}
 	}
 	
 	public Card handleSuggestion(Solution suggestion, String accusingPlayer,BoardCell clicked) {
