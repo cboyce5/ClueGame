@@ -1,11 +1,14 @@
 package ClueGame;
+import java.awt.Color;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -21,8 +24,17 @@ public class Board {
 	private String boardConfigFile;
 	private String roomConfigFile;
 	private ArrayList<String> listBoard;
+	private ArrayList<Card> deck;
 	
+	private ArrayList<ComputerPlayer> computerPlayers;
+	private HumanPlayer human;
+	private String cardPlayerConfigFile = "people.txt";
+	private String cardRoomsConfigFile = "rooms.txt";
+	private String cardWeaponConfigFile = "weapons.txt";
 	
+	private String personSolution;
+	private String roomSolution;
+	private String weaponSolution;
 	
 	public Board(String layout, String legend){
 		super();
@@ -35,6 +47,116 @@ public class Board {
 		super();
 		this.boardConfigFile = "ClueLayout.csv";
 		this.roomConfigFile = "ClueLegend.txt";
+	}
+	
+	public boolean checkAccusation(Solution a) {
+		if (a.person == personSolution && a.room == roomSolution && a.weapon == weaponSolution) {
+			return true;
+		}
+		return false;
+	}
+	
+	public void setSolution(Solution attempt) {
+		this.personSolution = attempt.person;
+		this.roomSolution = attempt.room;
+		this.weaponSolution = attempt.weapon;
+	}
+	
+	public void selectAnswer() {
+		
+	}
+	
+	public void deal() {
+		ArrayList<Card> dealDeck = deck;
+		int count = 0;
+		Random rn = new Random();
+		
+		while (dealDeck.size() != 0) {
+			int index = rn.nextInt(dealDeck.size());
+			if (count % 9 == 0) {
+				human.getCardsInHand().add(dealDeck.get(index));
+				dealDeck.remove(index);
+			}
+			else {
+				computerPlayers.get((count-1) % 9).getCardsInHand().add(dealDeck.get(index));
+				dealDeck.remove(index);
+			}
+			count++;
+		}
+	}
+	
+	public void loadConfigFiles() {
+		//arraylist creation(s)
+		computerPlayers = new ArrayList<ComputerPlayer>();
+		deck = new ArrayList<Card>();
+		FileReader reader = null;
+		Scanner in = null;
+		
+		//People objects and people card creation
+		try{
+			reader = new FileReader(cardPlayerConfigFile);
+			in = new Scanner(reader);
+		}catch(FileNotFoundException e){
+			System.out.println(e.getMessage());
+		}
+		String input = "";
+		int count = 0;
+		while (in.hasNextLine()) {
+			input = in.nextLine();
+			String[] array = input.split(",");
+			Card newCard = new Card(array[0], CardType.PERSON);
+			deck.add(newCard);
+			String name = array[0];
+			int row = Integer.parseInt(array[2]);
+			int col = Integer.parseInt(array[3]);
+			Color color;
+			try {
+			    Field field = Class.forName("java.awt.Color").getField(array[1]);
+			    color = (Color)field.get(null);
+			    if (count == 0) {
+			    	human = new HumanPlayer(name,row,col,color);
+			    }
+			    else {
+			    	ComputerPlayer tempPlayer = new ComputerPlayer(name,row,col,color);
+				    computerPlayers.add(tempPlayer);
+			    }
+			} catch (Exception e) {
+			    System.out.println("Color not valid on people config file.");
+			}
+			count++;
+		}
+		
+		//Room cards added to deck
+		try{
+			reader = new FileReader(cardRoomsConfigFile);
+			in = new Scanner(reader);
+		}catch(FileNotFoundException e){
+			System.out.println(e.getMessage());
+		}
+		while (in.hasNextLine()) {
+			input = in.nextLine();
+			Card newCard = new Card(input, CardType.ROOM);
+			deck.add(newCard);
+		}
+		
+		//Weapon cards added to deck
+		try{
+			reader = new FileReader(cardWeaponConfigFile);
+			in = new Scanner(reader);
+		}catch(FileNotFoundException e){
+			System.out.println(e.getMessage());
+		}
+		while (in.hasNextLine()) {
+			input = in.nextLine();
+			Card newCard = new Card(input, CardType.WEAPON);
+			deck.add(newCard);
+		}
+		
+	}
+	
+	public Card handleSuggestion(Solution suggestion, String accusingPlayer,BoardCell clicked) {
+		Card c = new Card("",CardType.ROOM);
+		return c;
 	}
 	
 	public void calcAdjacencies(){
@@ -218,6 +340,18 @@ public class Board {
 
 	public int getNumColumns() {
 		return numColumns;
+	}
+	
+	public HumanPlayer getHumanPlayer() {
+		return human;
+	}
+	
+	public ArrayList<Card> getDeck() {
+		return deck;
+	}
+	
+	public ArrayList<ComputerPlayer> getComputerPlayers() {
+		return computerPlayers;
 	}
 	
 }

@@ -1,0 +1,9 @@
+Revolver
+Candlestick
+Wrench
+Rope
+Lead pipe
+Knife
+Axe
+Poison
+Sword
