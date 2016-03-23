@@ -21,8 +21,8 @@ public class Card {
 		boolean equal = false;
 		if (o != null && o instanceof Card)
         {
-            equal = this.cardName == ((Card)o).cardName;
-            equal = this.cardType == ((Card)o).cardType;
+            equal = this.cardName == ((Card)o).cardName 
+            && this.cardType == ((Card)o).cardType;
         }
 		return equal;
 
