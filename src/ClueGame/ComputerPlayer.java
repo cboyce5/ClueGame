@@ -2,6 +2,7 @@ package ClueGame;
 
 import java.awt.Color;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 public class ComputerPlayer extends Player{
@@ -14,8 +15,16 @@ public class ComputerPlayer extends Player{
 		return nextCell;
 	}
 	public BoardCell pickLocation(Set<BoardCell> targets) {
-		BoardCell b = new BoardCell(1,1,'c');	
-		return b;
+		for (BoardCell b:targets) {
+			if (b.isRoom()) {
+				System.out.println(b);
+				return b;
+			}
+		}
+		Random rnd = new Random();
+		BoardCell[] newTargets = targets.toArray(new BoardCell[targets.size()]);
+		int index = rnd.nextInt(targets.size());
+		return newTargets[index];
 	}
 	public void makeAccustation() {
 		return;

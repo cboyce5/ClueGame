@@ -67,29 +67,29 @@ public class GameActionTests {
 	@Test
 	public void testTargets() {
 		//Room preference tests
-		board.calcTargets(2, 14, 1);
-		board.getComputerPlayers().get(0).pickLocation(board.getTargets());
-		for (int i = 0; i < 50; i++ ) {
-			assertEquals(board.getComputerPlayers().get(0).getNextCell(),board.getCellAt(2, 13));
-		}
+		board.calcTargets(14, 2, 1);
+		//for (int i = 0; i < 50; i++ ) {
+		System.out.println(board.getCellAt(13, 2));
+		assertEquals(board.getComputerPlayers().get(0).pickLocation(board.getTargets()),board.getCellAt(13, 2));
+		//}
 		
 		//Random choice tests
-		board.calcTargets(18, 15, 2);
+		board.calcTargets(15, 18, 2);
 		board.getComputerPlayers().get(0).pickLocation(board.getTargets());
 		ArrayList<Boolean> cellsSelected = new ArrayList<Boolean>();
 		for (int i = 0; i < 100; i++) {
 			BoardCell selected = board.getComputerPlayers().get(0).pickLocation(board.getTargets());
-			if (selected == board.getCellAt(20, 15))
+			if (selected == board.getCellAt(15, 20))
 				cellsSelected.add(true);
-			else if (selected == board.getCellAt(19, 14))
+			else if (selected == board.getCellAt(14, 19))
 				cellsSelected.add(true);
-			else if (selected == board.getCellAt(18, 13))
+			else if (selected == board.getCellAt(13, 18))
 				cellsSelected.add(true);
-			else if (selected == board.getCellAt(17, 14))
+			else if (selected == board.getCellAt(14, 17))
 				cellsSelected.add(true);
-			else if (selected == board.getCellAt(16, 15))
+			else if (selected == board.getCellAt(15, 16))
 				cellsSelected.add(true);
-			else if (selected == board.getCellAt(17, 16))
+			else if (selected == board.getCellAt(16, 17))
 				cellsSelected.add(true);
 			else
 				fail("Invaid target selected");

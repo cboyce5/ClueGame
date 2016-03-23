@@ -56,6 +56,14 @@ public class BoardCell {
 		this.secondInitial = secondInitial;
 	}
 	
+	public int getRow() {
+		return row;
+	}
+
+	public int getColumn() {
+		return column;
+	}
+
 	public void setDirection(char secondInitial){
 		switch(secondInitial){
 		case 'R':
@@ -80,6 +88,16 @@ public class BoardCell {
 	public String toString() {
 		return "BoardCell [row=" + row + ", column=" + column + ", initial=" + initial + ", secondInitial="
 				+ secondInitial + ", isDoor=" + isDoor + ", direction=" + direction + "]";
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof BoardCell) {
+			if (this.getRow() == ((BoardCell)o).getRow() && this.getColumn() == ((BoardCell)o).getColumn()) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	
