@@ -2,6 +2,7 @@ package ClueGame;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Player {
 	private String playerName;
@@ -11,8 +12,18 @@ public class Player {
 	private ArrayList<Card> cardsInHand;
 	
 	public Card disproveSuggestion(Solution suggestion) {
-		Card c = new Card("",CardType.ROOM);
-		return c;
+		ArrayList<Card> disprovedCards = new ArrayList<Card>();
+		for (Card a:cardsInHand)
+		{
+			if (a.equals(new Card(suggestion.person,CardType.PERSON)) || 
+				a.equals(new Card(suggestion.room,CardType.ROOM))||
+				a.equals(new Card(suggestion.weapon,CardType.WEAPON)))
+				disprovedCards.add(a);
+				
+		}
+		if(disprovedCards.isEmpty()) return null;
+		Random rd = new Random();
+		return disprovedCards.get(rd.nextInt(disprovedCards.size()));
 	}
 
 	//For testing purposes only
