@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -12,6 +14,7 @@ import ClueGame.Board;
 import ClueGame.BoardCell;
 import ClueGame.Card;
 import ClueGame.CardType;
+import ClueGame.ComputerPlayer;
 import ClueGame.HumanPlayer;
 import ClueGame.Player;
 import ClueGame.Solution;
@@ -180,6 +183,29 @@ public class GameActionTests {
 	 */
 	@Test
 	public void testComputerSuggestion() {
+		//Only one suggestion is possible based on card than have been seen
+		ComputerPlayer comp1 = new ComputerPlayer("",1,1,Color.BLACK);
+		Solution onlyOne = new Solution("Colonel Mustard","Hall","Knife");
+		Map<CardType,Card> one = new HashMap<CardType,Card>();
+		one.put(CardType.PERSON, new Card("Colonel Mustard",CardType.PERSON));
+		one.put(CardType.WEAPON, new Card("Knife",CardType.WEAPON));
+		one.put(CardType.ROOM, new Card("Hall",CardType.ROOM));
+		comp1.setCardsNotSeen(one);
+		assertEquals(onlyOne,comp1.makeSuggestion(board, board.getCellAt(comp1.getRow(), comp1.getColumn())));
 		
+		//Multiple suggestions are possible by having multiple cards of same type not seen
+		one.put(CardType.PERSON, new Card("Professor Plum", CardType.PERSON));
+		comp1.setCardsNotSeen(one);
+		boolean seenColonel = false;
+		boolean seenProfessor = false;
+		for (int i = 0; i < 50; i++) {
+			Solution s = comp1.makeSuggestion(board, board.getCellAt(comp1.getRow(), comp1.getColumn()));
+			if (s.person == "Colonel Mustard")
+				seenColonel = true;
+			if (s.person == "Professor Plum")
+				seenProfessor = true;
+		}
+		assertTrue(seenColonel);
+		assertTrue(seenProfessor);
 	}
 }

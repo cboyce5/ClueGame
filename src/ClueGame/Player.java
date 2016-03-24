@@ -2,6 +2,8 @@ package ClueGame;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 public class Player {
@@ -10,7 +12,8 @@ public class Player {
 	private int column;
 	private Color color;
 	private ArrayList<Card> cardsInHand;
-	
+	private Map<CardType,Card> cardsNotSeen;
+
 	public Card disproveSuggestion(Solution suggestion) {
 		ArrayList<Card> disprovedCards = new ArrayList<Card>();
 		for (Card a:cardsInHand)
@@ -38,6 +41,7 @@ public class Player {
 		this.column = column;
 		this.color = color;
 		cardsInHand = new ArrayList<Card>();
+		cardsNotSeen = new HashMap<CardType,Card>();
 	}
 
 	public int getRow() {
@@ -55,6 +59,12 @@ public class Player {
 	public ArrayList<Card> getCardsInHand() {
 		return cardsInHand;
 	}
+
+	public void setCardsNotSeen(Map<CardType, Card> cardsNotSeen) {
+		this.cardsNotSeen = cardsNotSeen;
+	}
+	
+	 
 
 	
 }

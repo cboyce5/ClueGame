@@ -26,10 +26,8 @@ public class ComputerPlayer extends Player{
 		int index = rnd.nextInt(targets.size());
 		return newTargets[index];
 	}
-	public void makeAccustation() {
-		return;
-	}
-	public void makeSuggestion(Board board, BoardCell location) {
-		return;
+	public Solution makeSuggestion(Board board, BoardCell location) {
+		Solution s = new Solution("","","");
+		return s;
 	}
 }
