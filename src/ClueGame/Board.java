@@ -65,7 +65,11 @@ public class Board {
 	public void selectAnswer() {
 		
 	}
-	
+	public void setPlayers(HumanPlayer human, ArrayList<ComputerPlayer> computerPlayers)
+	{
+		this.human = human;
+		this.computerPlayers = computerPlayers;
+	}
 	public void deal() {
 		ArrayList<Card> dealDeck = deck;
 		int count = 0;
@@ -84,7 +88,21 @@ public class Board {
 			count++;
 		}
 	}
-	
+	public Card handleSuggestion(Solution suggestion, String accusingPlayer,BoardCell clicked) {
+		ArrayList<Card> holder = new ArrayList<Card>();
+		for (Player a: computerPlayers)
+		{
+			if(a.disproveSuggestion(suggestion) != null && !a.getPlayerName().equals(accusingPlayer))
+				holder.add(a.disproveSuggestion(suggestion));
+		}
+		if (human.disproveSuggestion(suggestion) != null && !human.getPlayerName().equals(accusingPlayer)){
+			holder.add(human.disproveSuggestion(suggestion));
+		}
+			
+		if(holder.isEmpty()) return null;
+		return holder.get(0);
+		
+	}
 	public void loadConfigFiles() {
 		//arraylist creation(s)
 		computerPlayers = new ArrayList<ComputerPlayer>();
@@ -153,12 +171,7 @@ public class Board {
 		}
 		
 	}
-	
-	public Card handleSuggestion(Solution suggestion, String accusingPlayer,BoardCell clicked) {
-		Card c = new Card("",CardType.ROOM);
-		return c;
-	}
-	
+
 	public void calcAdjacencies(){
 		adjMtx = new HashMap<BoardCell, LinkedList<BoardCell>>();
 		for(int i = 0; i < numRows; i++){		

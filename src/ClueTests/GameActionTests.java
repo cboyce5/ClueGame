@@ -141,15 +141,15 @@ public class GameActionTests {
 		assertTrue(countRoom > 10);
 		assertTrue(countWeapon > 10);
 		//Players are queried in order
-		ArrayList<Player> players = new ArrayList<Player>();
+		ArrayList<ComputerPlayer> players = new ArrayList<ComputerPlayer>();
 		HumanPlayer disprover1 = new HumanPlayer("Disprover",0,0,Color.red);
 		disprover1.getCardsInHand().add(new Card("Mrs Peacock",CardType.PERSON));
 		disprover1.getCardsInHand().add(new Card("Library",CardType.ROOM));
 		disprover1.getCardsInHand().add(new Card("Lead pipe",CardType.WEAPON));
-		players.add(new Player("A",0,0,Color.green));
-		players.add(new Player("B",0,0,Color.gray));
-		players.add(new Player("C",0,0,Color.black));
-		players.add(new Player("D",0,0,Color.red));
+		players.add(new ComputerPlayer("A",0,0,Color.green));
+		players.add(new ComputerPlayer("B",0,0,Color.gray));
+		players.add(new ComputerPlayer("C",0,0,Color.black));
+		players.add(new ComputerPlayer("D",0,0,Color.red));
 		players.get(0).getCardsInHand().add(new Card ("Miss Scarlet",CardType.PERSON));
 		players.get(0).getCardsInHand().add(new Card ("Conservatory",CardType.ROOM));
 		players.get(0).getCardsInHand().add(new Card ("Revolver",CardType.WEAPON));
@@ -174,7 +174,19 @@ public class GameActionTests {
 			assertEquals(players.get(i).disproveSuggestion(new Solution("Mrs Peacock","Dining room","Sword")),null);
 		}
 		assertEquals(disprover1.disproveSuggestion(new Solution("Mrs Peacock","Dining room","Sword")),new Card("Mrs Peacock",CardType.PERSON));
-		//Third and forth part of the queried one.
+		//Test current player turn does not return a card
+		board.setPlayers(disprover1, players);
+		Solution testHumanSolution = new Solution("Mrs Peacock","Dining room","Sword");
+		assertEquals(board.handleSuggestion(testHumanSolution, disprover1.getPlayerName(), new BoardCell(0,0,'W')), null);
+		assertFalse(board.handleSuggestion(testHumanSolution, disprover1.getPlayerName(), new BoardCell(0,0,'W')) == new Card("Mrs Peacock",CardType.PERSON));
+		Solution testComputerSolution = new Solution("Mrs Peach","Kitchen","Sword");
+		assertEquals(board.handleSuggestion(testComputerSolution, players.get(1).getPlayerName(), new BoardCell(0,0,'W')), null);
+		assertFalse(board.handleSuggestion(testComputerSolution, disprover1.getPlayerName(), new BoardCell(0,0,'W')) == new Card("Kitchen",CardType.ROOM));
+		//Test people disprove orderly
+		Solution doubleDisprove = new Solution("Miss Scarlet","Ballroom","Sword");
+		assertEquals(board.handleSuggestion(doubleDisprove, disprover1.getPlayerName(),  new BoardCell(0,0,'W')), new Card("Miss Scarlet",CardType.PERSON));
+		Solution furthestDisprove = new Solution("Mr Green","Dining","Sword");
+		assertEquals(board.handleSuggestion(furthestDisprove, players.get(0).getPlayerName(),  new BoardCell(0,0,'W')), new Card("Mr Green",CardType.PERSON));
 	}
 	/*Tests a computer player making a suggestion
 	 *Tests the following things:
