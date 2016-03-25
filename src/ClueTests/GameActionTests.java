@@ -64,7 +64,6 @@ public class GameActionTests {
 		//Room preference tests
 		board.calcTargets(14, 2, 1);
 		//for (int i = 0; i < 50; i++ ) {
-		System.out.println(board.getCellAt(13, 2));
 		assertEquals(board.getComputerPlayers().get(0).pickLocation(board.getTargets()),board.getCellAt(13, 2));
 		//}
 		
@@ -116,6 +115,7 @@ public class GameActionTests {
 		assertEquals(disprover.disproveSuggestion(new Solution("Mr Boddy","Kitchen","Poison")),new Card("Kitchen",CardType.ROOM));
 		assertEquals(disprover.disproveSuggestion(new Solution("Mr Boddy","Library","Wrench")),new Card("Wrench",CardType.WEAPON));
 		assertEquals(disprover.disproveSuggestion(new Solution("Mr Boddy","Library","Poison")),null);
+		
 		//Returning one card with multiple cards, randomly
 		int countPerson = 0, countRoom = 0, countWeapon = 0;
 		Card person = new Card("Mr Green",CardType.PERSON);
@@ -140,6 +140,7 @@ public class GameActionTests {
 		assertTrue(countPerson > 10);
 		assertTrue(countRoom > 10);
 		assertTrue(countWeapon > 10);
+		
 		//Players are queried in order
 		ArrayList<ComputerPlayer> players = new ArrayList<ComputerPlayer>();
 		HumanPlayer disprover1 = new HumanPlayer("Disprover",0,0,Color.red);
@@ -162,18 +163,21 @@ public class GameActionTests {
 		players.get(3).getCardsInHand().add(new Card ("Mr Green",CardType.PERSON));
 		players.get(3).getCardsInHand().add(new Card ("Billiard room",CardType.ROOM));
 		players.get(3).getCardsInHand().add(new Card ("Rope",CardType.WEAPON));
+		
 		//No players can disprove, including human player.
 		for(int i = 0; i < players.size(); i++)
 		{
 			assertEquals(players.get(i).disproveSuggestion(new Solution("Ms Peach","Dining room","Sword")),null);
 		}
 		assertEquals(disprover1.disproveSuggestion(new Solution("Ms Peach","Dining room","Sword")),null);
+		
 		//Only human can disprove
 		for(int i = 0; i < players.size(); i++)
 		{
 			assertEquals(players.get(i).disproveSuggestion(new Solution("Mrs Peacock","Dining room","Sword")),null);
 		}
 		assertEquals(disprover1.disproveSuggestion(new Solution("Mrs Peacock","Dining room","Sword")),new Card("Mrs Peacock",CardType.PERSON));
+		
 		//Test current player turn does not return a card
 		board.setPlayers(disprover1, players);
 		Solution testHumanSolution = new Solution("Mrs Peacock","Dining room","Sword");
@@ -182,6 +186,7 @@ public class GameActionTests {
 		Solution testComputerSolution = new Solution("Mrs Peach","Kitchen","Sword");
 		assertEquals(board.handleSuggestion(testComputerSolution, players.get(1).getPlayerName(), new BoardCell(0,0,'W')), null);
 		assertFalse(board.handleSuggestion(testComputerSolution, disprover1.getPlayerName(), new BoardCell(0,0,'W')) == new Card("Kitchen",CardType.ROOM));
+		
 		//Test people disprove orderly
 		Solution doubleDisprove = new Solution("Miss Scarlet","Ballroom","Sword");
 		assertEquals(board.handleSuggestion(doubleDisprove, disprover1.getPlayerName(),  new BoardCell(0,0,'W')), new Card("Miss Scarlet",CardType.PERSON));
@@ -190,34 +195,54 @@ public class GameActionTests {
 	}
 	/*Tests a computer player making a suggestion
 	 *Tests the following things:
-	 *	-One suggestion is possible
-	 *	-Multiple possibilities, randomly chooses
+	 *	-One suggestion is possible (i.e. hasn't seen 1 card of each type)
+	 *	-Multiple possibilities, randomly chooses (i.e. hasn't seen 2+ cards of same type, randomly chooses one)
 	 */
 	@Test
 	public void testComputerSuggestion() {
 		//Only one suggestion is possible based on card than have been seen
 		ComputerPlayer comp1 = new ComputerPlayer("",1,1,Color.BLACK);
-		Solution onlyOne = new Solution("Colonel Mustard","Hall","Knife");
-		Map<CardType,Card> one = new HashMap<CardType,Card>();
-		one.put(CardType.PERSON, new Card("Colonel Mustard",CardType.PERSON));
-		one.put(CardType.WEAPON, new Card("Knife",CardType.WEAPON));
-		one.put(CardType.ROOM, new Card("Hall",CardType.ROOM));
+		Solution onlyOne = new Solution("Colonel Mustard","Ballroom","Knife");
+		Map<CardType,ArrayList<Card>> one = new HashMap<CardType,ArrayList<Card>>();
+		ArrayList<Card> person = new ArrayList<Card>();
+		person.add(new Card("Colonel Mustard", CardType.PERSON));
+		ArrayList<Card> room = new ArrayList<Card>();
+		room.add(new Card("Hall",CardType.ROOM));
+		ArrayList<Card> weapon = new ArrayList<Card>();
+		weapon.add(new Card("Knife", CardType.WEAPON));
+		one.put(CardType.PERSON, person);
+		one.put(CardType.WEAPON, weapon);
+		one.put(CardType.ROOM, room);
 		comp1.setCardsNotSeen(one);
-		assertEquals(onlyOne,comp1.makeSuggestion(board, board.getCellAt(comp1.getRow(), comp1.getColumn())));
+		Solution sol1 = comp1.makeSuggestion(board, board.getCellAt(comp1.getRow(), comp1.getColumn()));
+		assertEquals(onlyOne.person,comp1.makeSuggestion(board, board.getCellAt(comp1.getRow(), comp1.getColumn())).person);
+		assertEquals(onlyOne.room,comp1.makeSuggestion(board, board.getCellAt(comp1.getRow(), comp1.getColumn())).room);
+		assertEquals(onlyOne.weapon,comp1.makeSuggestion(board, board.getCellAt(comp1.getRow(), comp1.getColumn())).weapon);
 		
 		//Multiple suggestions are possible by having multiple cards of same type not seen
-		one.put(CardType.PERSON, new Card("Professor Plum", CardType.PERSON));
+		person.add(new Card("Professor Plum", CardType.PERSON));
+		person.add(new Card("Mr Green", CardType.PERSON));
+		weapon.add(new Card("Candlestick",CardType.WEAPON));
+		one.put(CardType.PERSON, person);
 		comp1.setCardsNotSeen(one);
 		boolean seenColonel = false;
 		boolean seenProfessor = false;
-		for (int i = 0; i < 50; i++) {
+		boolean seenGreen = false;
+		boolean seenCandle = false;
+		for (int i = 0; i < 100; i++) {		//loop through 100 times to ensure each is selected at least once
 			Solution s = comp1.makeSuggestion(board, board.getCellAt(comp1.getRow(), comp1.getColumn()));
 			if (s.person == "Colonel Mustard")
 				seenColonel = true;
 			if (s.person == "Professor Plum")
 				seenProfessor = true;
+			if (s.person == "Mr Green")
+				seenGreen = true;
+			if (s.weapon == "Candlestick")
+				seenCandle = true;
 		}
 		assertTrue(seenColonel);
 		assertTrue(seenProfessor);
+		assertTrue(seenGreen);
+		assertTrue(seenCandle);
 	}
 }

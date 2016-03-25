@@ -17,7 +17,6 @@ public class ComputerPlayer extends Player{
 	public BoardCell pickLocation(Set<BoardCell> targets) {
 		for (BoardCell b:targets) {
 			if (b.isRoom()) {
-				System.out.println(b);
 				return b;
 			}
 		}
@@ -27,7 +26,16 @@ public class ComputerPlayer extends Player{
 		return newTargets[index];
 	}
 	public Solution makeSuggestion(Board board, BoardCell location) {
-		Solution s = new Solution("","","");
+		String room = "";
+		String person = "";
+		String weapon = "";
+		room = board.getRooms().get(location.getInitial());
+		Random rnd = new Random();
+		int index = rnd.nextInt(this.getCardsNotSeen().get(CardType.PERSON).size());
+		person = this.getCardsNotSeen().get(CardType.PERSON).get(index).getCardName();
+		index = rnd.nextInt(this.getCardsNotSeen().get(CardType.WEAPON).size());
+		weapon = this.getCardsNotSeen().get(CardType.WEAPON).get(index).getCardName();
+		Solution s = new Solution(person,room,weapon);
 		return s;
 	}
 }

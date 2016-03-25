@@ -12,7 +12,7 @@ public class Player {
 	private int column;
 	private Color color;
 	private ArrayList<Card> cardsInHand;
-	private Map<CardType,Card> cardsNotSeen;
+	private Map<CardType,ArrayList<Card>> cardsNotSeen;
 
 	public Card disproveSuggestion(Solution suggestion) {
 		ArrayList<Card> disprovedCards = new ArrayList<Card>();
@@ -29,6 +29,10 @@ public class Player {
 		return disprovedCards.get(rd.nextInt(disprovedCards.size()));
 	}
 
+	public Map<CardType, ArrayList<Card>> getCardsNotSeen() {
+		return cardsNotSeen;
+	}
+
 	//For testing purposes only
 	public String getPlayerName() {
 		return playerName;
@@ -41,7 +45,7 @@ public class Player {
 		this.column = column;
 		this.color = color;
 		cardsInHand = new ArrayList<Card>();
-		cardsNotSeen = new HashMap<CardType,Card>();
+		cardsNotSeen = new HashMap<CardType,ArrayList<Card>>();
 	}
 
 	public int getRow() {
@@ -60,7 +64,7 @@ public class Player {
 		return cardsInHand;
 	}
 
-	public void setCardsNotSeen(Map<CardType, Card> cardsNotSeen) {
+	public void setCardsNotSeen(Map<CardType, ArrayList<Card>> cardsNotSeen) {
 		this.cardsNotSeen = cardsNotSeen;
 	}
 	
