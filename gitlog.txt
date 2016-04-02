@@ -1,3 +1,79 @@
+commit 585c78890b49044c07e0bac533417c38896fd880
+Author: Cliff Boyce <cboyce@mines.edu>
+Date:   Thu Mar 24 20:08:45 2016 -0600
+
+    Finished computer suggestion tests, all tests for part 1 and 2 pass
+
+commit 6a475038b0517515c08c65f3bf3a50b291e83528
+Merge: 0f33c86 d08e55e
+Author: Cliff Boyce <cboyce@mines.edu>
+Date:   Thu Mar 24 17:57:37 2016 -0600
+
+    Merge branch 'master' of https://github.com/cboyce5/CluePlayers
+    
+    merge branches worked on at same time
+
+commit 0f33c869d57fb1ce16668ec379a1b575e4db4190
+Author: Cliff Boyce <cboyce@mines.edu>
+Date:   Thu Mar 24 17:55:36 2016 -0600
+
+    Added failing tests for computer players making suggestions
+
+commit d08e55e5cd0043b3718f4145598dfeae02317f86
+Author: Minh T. Vu <minhtvu@mymail.mines.edu>
+Date:   Thu Mar 24 17:42:19 2016 -0600
+
+    Finish disproveSuggestion tests
+
+commit 881325923b44f87d07fbbe11fd4c4deaffa66da9
+Author: Minh T. Vu <minhtvu@mymail.mines.edu>
+Date:   Thu Mar 24 06:56:27 2016 -0600
+
+    Update disprove a suggestion test
+
+commit 189a4f20c264281047e9c597f7dc52b6139565d2
+Author: Cliff Boyce <cboyce@mines.edu>
+Date:   Wed Mar 23 17:00:43 2016 -0600
+
+    Made all target tests pass
+
+commit f6d06d64a55e7fe3def7212280523c05f962c33c
+Author: Cliff Boyce <cboyce@mines.edu>
+Date:   Wed Mar 23 16:24:43 2016 -0600
+
+    Added failing tests for target testing
+
+commit a9b05079f9f5b3fb312824651eee9c3a1c36fb66
+Author: Minh T. Vu <minhtvu@mymail.mines.edu>
+Date:   Tue Mar 22 19:13:50 2016 -0600
+
+     Fix equals method in Card class (logic)
+
+commit 25c2f85b029aecbe621584e73129136641c6c703
+Author: Minh T. Vu <minhtvu@mymail.mines.edu>
+Date:   Tue Mar 22 18:38:28 2016 -0600
+
+    Fix equals method in Card class (logic)
+
+commit fef980db0ca5c21d96b7678d42d903faa5a920ff
+Merge: 87bb502 70d25d6
+Author: Minh T. Vu <minhtvu@mymail.mines.edu>
+Date:   Tue Mar 22 18:31:10 2016 -0600
+
+    Fix conflict when merge
+
+commit 70d25d6a2f1afd21b2262cd7b457bc43d67758ac
+Author: Cliff Boyce <cboyce@mines.edu>
+Date:   Tue Mar 22 16:29:39 2016 -0600
+
+    Changed the human player to load from config file rather than hard code
+
+commit 9f54b28adc6ed44adc169f3720eacb114cdf75d8
+Author: Cliff Boyce <cboyce@mines.edu>
+Date:   Tue Mar 22 16:14:22 2016 -0600
+
+    Added up to date gitlog
+
 commit 8afbaaf727e190385952e7c4bf53a555dcf697b5
 Author: Cliff Boyce <cboyce@mines.edu>
 Date:   Tue Mar 22 16:04:35 2016 -0600
@@ -63,6 +139,12 @@ Author: Cliff Boyce <cboyce@mines.edu>
 Date:   Mon Mar 21 00:13:48 2016 -0600
 
     Added base class files for CluePlayers part 1
+
+commit 87bb502ba024ca05681949ff1a374768270a48d0
+Author: Minh T. Vu <minhtvu@mymail.mines.edu>
+Date:   Thu Mar 17 19:49:01 2016 -0600
+
+    Initial commit
 
 commit 585d0efe98b913dd65d6f0a5823041ea08f828b0
 Author: Cliff Boyce <cboyce@mines.edu>

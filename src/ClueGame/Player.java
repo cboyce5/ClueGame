@@ -13,6 +13,10 @@ public class Player {
 	private Color color;
 	private ArrayList<Card> cardsInHand;
 	private Map<CardType,ArrayList<Card>> cardsNotSeen;
+	private int pixelRow;
+	private int pixelColumn;
+	private int pixelHeight = 35;
+	private int pixelWidth = 35;
 
 	public Card disproveSuggestion(Solution suggestion) {
 		ArrayList<Card> disprovedCards = new ArrayList<Card>();
@@ -38,6 +42,22 @@ public class Player {
 		return playerName;
 	}
 
+	public int getPixelRow() {
+		return pixelRow;
+	}
+
+	public int getPixelColumn() {
+		return pixelColumn;
+	}
+
+	public int getPixelHeight() {
+		return pixelHeight;
+	}
+
+	public int getPixelWidth() {
+		return pixelWidth;
+	}
+
 	public Player(String playerName, int row, int column, Color color) {
 		super();
 		this.playerName = playerName;
@@ -46,6 +66,8 @@ public class Player {
 		this.color = color;
 		cardsInHand = new ArrayList<Card>();
 		cardsNotSeen = new HashMap<CardType,ArrayList<Card>>();
+		this.pixelColumn = column * 35;
+		this.pixelRow = row * 35;
 	}
 
 	public int getRow() {

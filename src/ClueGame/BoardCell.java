@@ -1,5 +1,8 @@
 package ClueGame;
 
+import java.awt.Color;
+import java.awt.Graphics;
+
 public class BoardCell {
 	private int row;
 	private int column;
@@ -7,6 +10,10 @@ public class BoardCell {
 	private char secondInitial = 'N';
 	private boolean isDoor;
 	private DoorDirection direction = DoorDirection.NONE;
+	private int pixelRow;
+	private int pixelCol;
+	private int pixelHeight = 35;
+	private int pixelWidth = 35;
 	
 
 	public BoardCell(int row, int column, char initial) {
@@ -14,6 +21,43 @@ public class BoardCell {
 		this.row = row;
 		this.column = column;
 		this.initial = initial;
+		this.pixelRow = row * pixelHeight;
+		this.pixelCol = column * pixelWidth;
+	}
+	
+	public void draw(Graphics g) {
+		
+		if (isWalkway()) {
+			g.setColor(Color.PINK);
+			g.fillRect(pixelCol, pixelRow, pixelWidth, pixelHeight);
+			g.setColor(Color.BLACK);
+			g.drawRect(pixelCol, pixelRow, pixelWidth, pixelHeight);
+		}
+		else {
+			g.setColor(Color.LIGHT_GRAY);
+			g.fillRect(pixelCol, pixelRow, pixelWidth, pixelHeight);
+		}
+		if (isDoorway()) {
+			g.setColor(Color.BLUE);
+			switch (this.direction) {
+				case UP:
+					g.fillRect(pixelCol, pixelRow, pixelWidth, 5);
+					break;
+				case DOWN:
+					g.fillRect(pixelCol, pixelRow+30, pixelWidth, 5);
+					break;
+				case RIGHT:
+					g.fillRect(pixelCol+30, pixelRow, 5, pixelHeight);
+					break;
+				case LEFT:
+					g.fillRect(pixelCol, pixelRow, 5, pixelHeight);
+					break;
+				default:
+					break;
+				
+			}
+		}
+		
 	}
 	
 	public boolean isWalkway(){

@@ -1,5 +1,6 @@
 package ClueGame;
 import java.awt.Color;
+import java.awt.Graphics;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.lang.reflect.Field;
@@ -12,7 +13,9 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
-public class Board {
+import javax.swing.JPanel;
+
+public class Board extends JPanel{
 	private Map<BoardCell, LinkedList<BoardCell>> adjMtx;
 	private Set<BoardCell> visited;
 	private Set<BoardCell> targets;
@@ -47,6 +50,38 @@ public class Board {
 		super();
 		this.boardConfigFile = "ClueLayout.csv";
 		this.roomConfigFile = "ClueLegend.txt";
+	}
+	
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		for (int i = 0; i < numRows; i++) {
+			for (int j = 0; j < numColumns; j++) {
+				this.board[i][j].draw(g);
+			}
+		}
+		g.setColor(Color.BLUE);
+		g.drawString("Ballroom",70,70);
+		g.drawString("Conservatory",490,710);
+		g.drawString("Kitchen",70,350);
+		g.drawString("Billiard Room",385,70);
+		g.drawString("Library",280,710);
+		g.drawString("Study",70,700);
+		g.drawString("Dining Room",700,350);
+		g.drawString("Lounge",735,70);
+		g.drawString("Hall",750,710);
+		
+		g.setColor(human.getColor());
+		g.fillOval(human.getPixelColumn(), human.getPixelRow(), human.getPixelHeight(), human.getPixelHeight());
+		g.setColor(Color.BLACK);
+		g.drawOval(human.getPixelColumn(), human.getPixelRow(), human.getPixelHeight(), human.getPixelHeight());
+		
+		
+		for (int i = 0; i < computerPlayers.size(); i++) {
+			g.setColor(computerPlayers.get(i).getColor());
+			g.fillOval(computerPlayers.get(i).getPixelColumn(), computerPlayers.get(i).getPixelRow(), computerPlayers.get(i).getPixelHeight(), computerPlayers.get(i).getPixelHeight());
+			g.setColor(Color.BLACK);
+			g.drawOval(computerPlayers.get(i).getPixelColumn(), computerPlayers.get(i).getPixelRow(), computerPlayers.get(i).getPixelHeight(), computerPlayers.get(i).getPixelHeight());
+		}
 	}
 	
 	public boolean checkAccusation(Solution a) {
