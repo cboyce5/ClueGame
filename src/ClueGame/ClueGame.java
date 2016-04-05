@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -12,6 +13,7 @@ import javax.swing.JMenuItem;
 
 public class ClueGame extends JFrame{
 	private static Board board;
+	private DetectiveNotesDialog dialog;
 	public static int NUM_ROOMS = 11;
 	public static int NUM_ROWS = 25;
 	public static int NUM_COLUMNS = 25;
@@ -26,6 +28,7 @@ public class ClueGame extends JFrame{
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		menuBar.add(createFileMenu());
+		
 		add(board, BorderLayout.CENTER);
 	}
 	
@@ -38,6 +41,14 @@ public class ClueGame extends JFrame{
 	
 	private JMenuItem createNotesItem() {
 		JMenuItem item = new JMenuItem("Show Notes");
+		DetectiveNotesDialog dialog = new DetectiveNotesDialog();
+		class MenuItemListener implements ActionListener {
+			public void actionPerformed(ActionEvent e) {
+				dialog.setVisible(true);
+				
+			}
+		}
+		item.addActionListener(new MenuItemListener());
 		return item;
 	}
 	
