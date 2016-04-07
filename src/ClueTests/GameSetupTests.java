@@ -17,6 +17,7 @@ public class GameSetupTests {
 	private Card theHall;
 	private Card theCandlestick;
 	public static int NUM_CARDS = 27;
+	public static int NUM_CARDS_AFTER_SOL = 24;
 	public static int NUM_PEOPLE = 9;
 	public static int NUM_ROOMS = 9;
 	public static int NUM_WEAPONS = 9;
@@ -113,7 +114,7 @@ public class GameSetupTests {
 			cardsDealt += board.getComputerPlayers().get(i).getCardsInHand().size();
 		}
 		cardsDealt += board.getHumanPlayer().getCardsInHand().size();
-		assertEquals(NUM_CARDS,cardsDealt);
+		assertEquals(NUM_CARDS_AFTER_SOL, cardsDealt);
 		
 		//Test that all players have roughly the same number of cards
 		int min = board.getComputerPlayers().get(0).getCardsInHand().size();

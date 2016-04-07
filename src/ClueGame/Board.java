@@ -116,8 +116,8 @@ public class Board extends JPanel{
 		Random rn = new Random();
 		
 		indexOne = rn.nextInt(9);
-		indexTwo = rn.nextInt(9) + 9;
-		indexThree = rn.nextInt(9) + 18;
+		indexTwo = rn.nextInt(9) + 8;
+		indexThree = rn.nextInt(9) + 17;
 		
 		personSolution = dealDeck.get(indexOne).getCardName();
 		dealDeck.remove(indexOne);
