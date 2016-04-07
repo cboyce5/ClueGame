@@ -121,10 +121,10 @@ public class Board extends JPanel{
 		
 		personSolution = dealDeck.get(indexOne).getCardName();
 		dealDeck.remove(indexOne);
-		personSolution = dealDeck.get(indexOne).getCardName();
-		dealDeck.remove(indexOne);
-		personSolution = dealDeck.get(indexOne).getCardName();
-		dealDeck.remove(indexOne);
+		roomSolution = dealDeck.get(indexTwo).getCardName();
+		dealDeck.remove(indexTwo);
+		weaponSolution = dealDeck.get(indexThree).getCardName();
+		dealDeck.remove(indexThree);
 		
 		while (dealDeck.size() != 0) {
 			int index = rn.nextInt(dealDeck.size());
@@ -141,6 +141,11 @@ public class Board extends JPanel{
 	}
 	public Card handleSuggestion(Solution suggestion, String accusingPlayer,BoardCell clicked) {
 		ArrayList<Card> holder = new ArrayList<Card>();
+		for (int i = 0; i < computerPlayers.size(); i++) {
+			if (computerPlayers.get(i).getPlayerName() == accusingPlayer) {
+				int index = i;
+			}
+		}
 		for (Player a: computerPlayers)
 		{
 			if(a.disproveSuggestion(suggestion) != null && !a.getPlayerName().equals(accusingPlayer))
