@@ -29,6 +29,7 @@ public class Board extends JPanel{
 	private ArrayList<String> listBoard;
 	private ArrayList<Card> deck;
 	
+	
 	private ArrayList<ComputerPlayer> computerPlayers;
 	private HumanPlayer human;
 	private String cardPlayerConfigFile = "people.txt";
@@ -107,8 +108,23 @@ public class Board extends JPanel{
 	}
 	public void deal() {
 		ArrayList<Card> dealDeck = deck;
+		int indexOne;
+		int indexTwo;
+		int indexThree;
 		int count = 0;
+		
 		Random rn = new Random();
+		
+		indexOne = rn.nextInt(9);
+		indexTwo = rn.nextInt(9) + 9;
+		indexThree = rn.nextInt(9) + 18;
+		
+		personSolution = dealDeck.get(indexOne).getCardName();
+		dealDeck.remove(indexOne);
+		personSolution = dealDeck.get(indexOne).getCardName();
+		dealDeck.remove(indexOne);
+		personSolution = dealDeck.get(indexOne).getCardName();
+		dealDeck.remove(indexOne);
 		
 		while (dealDeck.size() != 0) {
 			int index = rn.nextInt(dealDeck.size());
