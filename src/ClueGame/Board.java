@@ -141,20 +141,29 @@ public class Board extends JPanel{
 	}
 	public Card handleSuggestion(Solution suggestion, String accusingPlayer,BoardCell clicked) {
 		ArrayList<Card> holder = new ArrayList<Card>();
+		int index = 0;
+		
 		for (int i = 0; i < computerPlayers.size(); i++) {
 			if (computerPlayers.get(i).getPlayerName() == accusingPlayer) {
-				int index = i;
+				index = i;
 			}
 		}
-		for (Player a: computerPlayers)
-		{
-			if(a.disproveSuggestion(suggestion) != null && !a.getPlayerName().equals(accusingPlayer))
-				holder.add(a.disproveSuggestion(suggestion));
+		
+		for(int i = index + 1; i < computerPlayers.size(); i++){
+			
+			if(computerPlayers.get(i).disproveSuggestion(suggestion) != null && !computerPlayers.get(i).getPlayerName().equals(accusingPlayer))
+				holder.add(computerPlayers.get(i).disproveSuggestion(suggestion));
 		}
+		
 		if (human.disproveSuggestion(suggestion) != null && !human.getPlayerName().equals(accusingPlayer)){
 			holder.add(human.disproveSuggestion(suggestion));
 		}
-			
+		
+		for (int i = 0; i < index; i++){
+			if(computerPlayers.get(i).disproveSuggestion(suggestion) != null && !computerPlayers.get(i).getPlayerName().equals(accusingPlayer))
+				holder.add(computerPlayers.get(i).disproveSuggestion(suggestion));
+		}
+		
 		if(holder.isEmpty()) return null;
 		return holder.get(0);
 		
