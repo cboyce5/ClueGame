@@ -21,7 +21,6 @@ public class ClueGame extends JFrame{
 	public ClueGame() {
 		board = new Board("layout.csv", "ClueLegend.txt");
 		board.initialize();
-		board.loadConfigFiles();
 		setTitle("Clue Game");
 		setSize(new Dimension(890,930));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

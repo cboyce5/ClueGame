@@ -18,6 +18,18 @@ public class Player {
 	private int pixelHeight = 35;
 	private int pixelWidth = 35;
 
+	public Player(String playerName, int row, int column, Color color) {
+		super();
+		this.playerName = playerName;
+		this.row = row;
+		this.column = column;
+		this.color = color;
+		cardsInHand = new ArrayList<Card>();
+		cardsNotSeen = new HashMap<CardType,ArrayList<Card>>();
+		this.pixelColumn = column * 35;
+		this.pixelRow = row * 35;
+	}
+	
 	public Card disproveSuggestion(Solution suggestion) {
 		ArrayList<Card> disprovedCards = new ArrayList<Card>();
 		for (Card a:cardsInHand)
@@ -33,43 +45,7 @@ public class Player {
 		return disprovedCards.get(rd.nextInt(disprovedCards.size()));
 	}
 
-	public Map<CardType, ArrayList<Card>> getCardsNotSeen() {
-		return cardsNotSeen;
-	}
-
-	//For testing purposes only
-	public String getPlayerName() {
-		return playerName;
-	}
-
-	public int getPixelRow() {
-		return pixelRow;
-	}
-
-	public int getPixelColumn() {
-		return pixelColumn;
-	}
-
-	public int getPixelHeight() {
-		return pixelHeight;
-	}
-
-	public int getPixelWidth() {
-		return pixelWidth;
-	}
-
-	public Player(String playerName, int row, int column, Color color) {
-		super();
-		this.playerName = playerName;
-		this.row = row;
-		this.column = column;
-		this.color = color;
-		cardsInHand = new ArrayList<Card>();
-		cardsNotSeen = new HashMap<CardType,ArrayList<Card>>();
-		this.pixelColumn = column * 35;
-		this.pixelRow = row * 35;
-	}
-
+	//Necessary getters and setters
 	public int getRow() {
 		return row;
 	}
@@ -90,7 +66,29 @@ public class Player {
 		this.cardsNotSeen = cardsNotSeen;
 	}
 	
-	 
+	public Map<CardType, ArrayList<Card>> getCardsNotSeen() {
+		return cardsNotSeen;
+	}
+
+	public String getPlayerName() {
+		return playerName;
+	}
+
+	public int getPixelRow() {
+		return pixelRow;
+	}
+
+	public int getPixelColumn() {
+		return pixelColumn;
+	}
+
+	public int getPixelHeight() {
+		return pixelHeight;
+	}
+
+	public int getPixelWidth() {
+		return pixelWidth;
+	}
 
 	
 }

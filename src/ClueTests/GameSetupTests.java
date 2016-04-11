@@ -29,7 +29,7 @@ public class GameSetupTests {
 		mrGreen = new Card("Mr Green", CardType.PERSON);
 		theHall = new Card("Hall", CardType.ROOM);
 		theCandlestick = new Card("Candlestick", CardType.WEAPON);
-		board.loadConfigFiles();
+		board.initialize();
 	}
 	
 	/*Testing that people are loaded correctly

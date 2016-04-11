@@ -29,7 +29,6 @@ public class Board extends JPanel{
 	private ArrayList<String> listBoard;
 	private ArrayList<Card> deck;
 	
-	
 	private ArrayList<ComputerPlayer> computerPlayers;
 	private HumanPlayer human;
 	private String cardPlayerConfigFile = "people.txt";
@@ -44,7 +43,6 @@ public class Board extends JPanel{
 		super();
 		this.boardConfigFile = layout;
 		this.roomConfigFile = legend;
-
 	}
 
 	public Board(){
@@ -92,20 +90,6 @@ public class Board extends JPanel{
 		return false;
 	}
 	
-	public void setSolution(Solution attempt) {
-		this.personSolution = attempt.person;
-		this.roomSolution = attempt.room;
-		this.weaponSolution = attempt.weapon;
-	}
-	
-	public void selectAnswer() {
-		
-	}
-	public void setPlayers(HumanPlayer human, ArrayList<ComputerPlayer> computerPlayers)
-	{
-		this.human = human;
-		this.computerPlayers = computerPlayers;
-	}
 	public void deal() {
 		ArrayList<Card> dealDeck = deck;
 		int indexOne;
@@ -139,6 +123,7 @@ public class Board extends JPanel{
 			count++;
 		}
 	}
+	
 	public Card handleSuggestion(Solution suggestion, String accusingPlayer,BoardCell clicked) {
 		ArrayList<Card> holder = new ArrayList<Card>();
 		int index = 0;
@@ -164,11 +149,12 @@ public class Board extends JPanel{
 				holder.add(computerPlayers.get(i).disproveSuggestion(suggestion));
 		}
 		
-		if(holder.isEmpty()) return null;
+		if(holder.isEmpty()) 
+			return null;
 		return holder.get(0);
-		
 	}
-	public void loadConfigFiles() {
+	
+	public void loadCardConfig() {
 		//arraylist creation(s)
 		computerPlayers = new ArrayList<ComputerPlayer>();
 		deck = new ArrayList<Card>();
@@ -234,7 +220,6 @@ public class Board extends JPanel{
 			Card newCard = new Card(input, CardType.WEAPON);
 			deck.add(newCard);
 		}
-		
 	}
 
 	public void calcAdjacencies(){
@@ -292,33 +277,6 @@ public class Board extends JPanel{
 			}	
 		}			
 	}
-    public void calcTargets(BoardCell startCell, int pathLength){
-    		visited = new HashSet<BoardCell>();
-    		targets = new HashSet<BoardCell>();
-    		visited.add(startCell);
-    		findAllTargets(startCell, pathLength);
-    }
-    public void calcTargets(int x, int y, int pathLength){
-		visited = new HashSet<BoardCell>();
-		targets = new HashSet<BoardCell>();
-		visited.add(board[x][y]);
-		findAllTargets(board[x][y], pathLength);
-    }
-	public Set<BoardCell> getTargets(){
-		return targets;
-	}
-	public LinkedList<BoardCell> getAdjList(BoardCell cell){
-		return adjMtx.get(cell);
-	}
-	
-	public LinkedList<BoardCell> getAdjList(int x, int y){
-		return adjMtx.get(board[x][y]);
-		
-	}
-	
-	public BoardCell getCellAt(int x, int y){
-		return board[x][y];
-	}
 	
 	public void findAllTargets(BoardCell thisCell, int numSteps){
 		LinkedList<BoardCell> adjacentCells = new LinkedList<BoardCell>(getAdjList(thisCell));
@@ -333,14 +291,15 @@ public class Board extends JPanel{
 	}
 	
 	public void initialize() {
-			try{
-			
-				loadRoomConfig();
-				loadBoardConfig();
-				calcAdjacencies();}
-			catch(BadConfigFormatException e){
-				System.out.println(e.getMessage());
-			}
+		try {
+			loadRoomConfig();
+			loadBoardConfig();
+			loadCardConfig();
+			calcAdjacencies();
+		}
+		catch(BadConfigFormatException e){
+			System.out.println(e.getMessage());
+		}
 	}
 	
 	public void loadRoomConfig() throws BadConfigFormatException{
@@ -407,6 +366,38 @@ public class Board extends JPanel{
 			}
 		}
 	}
+	
+    public void calcTargets(BoardCell startCell, int pathLength){
+    		visited = new HashSet<BoardCell>();
+    		targets = new HashSet<BoardCell>();
+    		visited.add(startCell);
+    		findAllTargets(startCell, pathLength);
+    }
+    
+    public void calcTargets(int x, int y, int pathLength){
+		visited = new HashSet<BoardCell>();
+		targets = new HashSet<BoardCell>();
+		visited.add(board[x][y]);
+		findAllTargets(board[x][y], pathLength);
+    }
+    
+    //Necessary getters and setters
+	public Set<BoardCell> getTargets(){
+		return targets;
+	}
+	
+	public LinkedList<BoardCell> getAdjList(BoardCell cell){
+		return adjMtx.get(cell);
+	}
+	
+	public LinkedList<BoardCell> getAdjList(int x, int y){
+		return adjMtx.get(board[x][y]);
+		
+	}
+	
+	public BoardCell getCellAt(int x, int y){
+		return board[x][y];
+	}
 
 	public static Map<Character, String> getRooms() {
 		return rooms;
@@ -430,6 +421,17 @@ public class Board extends JPanel{
 	
 	public ArrayList<ComputerPlayer> getComputerPlayers() {
 		return computerPlayers;
+	}
+	
+	public void setSolution(Solution attempt) {
+		this.personSolution = attempt.person;
+		this.roomSolution = attempt.room;
+		this.weaponSolution = attempt.weapon;
+	}
+	
+	public void setPlayers(HumanPlayer human, ArrayList<ComputerPlayer> computerPlayers) {
+		this.human = human;
+		this.computerPlayers = computerPlayers;
 	}
 	
 }

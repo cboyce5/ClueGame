@@ -7,13 +7,12 @@ import java.util.Set;
 
 public class ComputerPlayer extends Player{
 	private BoardCell nextCell;
+	
 	public ComputerPlayer(String playerName, int row, int column, Color color) {
 		super(playerName, row, column, color);
 		// TODO Auto-generated constructor stub
 	}
-	public BoardCell getNextCell() {
-		return nextCell;
-	}
+
 	public BoardCell pickLocation(Set<BoardCell> targets) {
 		for (BoardCell b:targets) {
 			if (b.isRoom()) {
@@ -25,6 +24,7 @@ public class ComputerPlayer extends Player{
 		int index = rnd.nextInt(targets.size());
 		return newTargets[index];
 	}
+	
 	public Solution makeSuggestion(Board board, BoardCell location) {
 		String room = "";
 		String person = "";
@@ -37,5 +37,9 @@ public class ComputerPlayer extends Player{
 		weapon = this.getCardsNotSeen().get(CardType.WEAPON).get(index).getCardName();
 		Solution s = new Solution(person,room,weapon);
 		return s;
+	}
+	
+	public BoardCell getNextCell() {
+		return nextCell;
 	}
 }

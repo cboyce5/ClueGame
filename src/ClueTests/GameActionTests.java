@@ -37,7 +37,6 @@ public class GameActionTests {
 		badRoom = new Solution("Colonel Mustard","Kitchen","Knife");
 		badWeapon = new Solution("Colonel Mustard","Hall","Revolver");
 		board.initialize();
-		board.loadConfigFiles();
 	}
 
 	/*Testing an accusation
