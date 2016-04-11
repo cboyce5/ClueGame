@@ -11,13 +11,11 @@ import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
-public class ClueControlGUI extends JFrame{
+public class ClueControlGUI extends JPanel{
 	
 	public ClueControlGUI() {
-		setTitle("Clue Control");
-		setSize(700,200);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout();
+		setLayout(new GridLayout(2,3));
 	}
 	
 	private void setLayout() {
@@ -64,11 +62,15 @@ public class ClueControlGUI extends JFrame{
 		topPanel.add(nextPlayerButton);
 		topPanel.add(accusationButton);
 		
+		JPanel bottomPanel = new JPanel();
+		bottomPanel.setLayout(new GridLayout(1,3));
+		bottomPanel.add(diePanel);
+		bottomPanel.add(guessPanel);
+		bottomPanel.add(resultPanel);
+		
 		//Adding to JFrame
-		add(topPanel,BorderLayout.NORTH);
-		add(diePanel,BorderLayout.WEST);
-		add(guessPanel, BorderLayout.CENTER);
-		add(resultPanel, BorderLayout.EAST);
+		add(topPanel);
+		add(bottomPanel);
 
 	}
 

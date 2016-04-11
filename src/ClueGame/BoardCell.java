@@ -12,8 +12,8 @@ public class BoardCell {
 	private DoorDirection direction = DoorDirection.NONE;
 	private int pixelRow;
 	private int pixelCol;
-	private int pixelHeight = 35;
-	private int pixelWidth = 35;
+	private int pixelHeight = 25;
+	private int pixelWidth = 25;
 	
 
 	public BoardCell(int row, int column, char initial) {
@@ -44,10 +44,10 @@ public class BoardCell {
 					g.fillRect(pixelCol, pixelRow, pixelWidth, 5);
 					break;
 				case DOWN:
-					g.fillRect(pixelCol, pixelRow+30, pixelWidth, 5);
+					g.fillRect(pixelCol, pixelRow+20, pixelWidth, 5);
 					break;
 				case RIGHT:
-					g.fillRect(pixelCol+30, pixelRow, 5, pixelHeight);
+					g.fillRect(pixelCol+20, pixelRow, 5, pixelHeight);
 					break;
 				case LEFT:
 					g.fillRect(pixelCol, pixelRow, 5, pixelHeight);

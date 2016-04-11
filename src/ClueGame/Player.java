@@ -15,8 +15,8 @@ public class Player {
 	private Map<CardType,ArrayList<Card>> cardsNotSeen;
 	private int pixelRow;
 	private int pixelColumn;
-	private int pixelHeight = 35;
-	private int pixelWidth = 35;
+	private int pixelHeight = 25;
+	private int pixelWidth = 25;
 
 	public Player(String playerName, int row, int column, Color color) {
 		super();
@@ -26,8 +26,8 @@ public class Player {
 		this.color = color;
 		cardsInHand = new ArrayList<Card>();
 		cardsNotSeen = new HashMap<CardType,ArrayList<Card>>();
-		this.pixelColumn = column * 35;
-		this.pixelRow = row * 35;
+		this.pixelColumn = column * 25;
+		this.pixelRow = row * 25;
 	}
 	
 	public Card disproveSuggestion(Solution suggestion) {

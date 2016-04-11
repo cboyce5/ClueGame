@@ -59,15 +59,15 @@ public class Board extends JPanel{
 			}
 		}
 		g.setColor(Color.BLUE);
-		g.drawString("Ballroom",70,70);
-		g.drawString("Conservatory",490,710);
-		g.drawString("Kitchen",70,350);
-		g.drawString("Billiard Room",385,70);
-		g.drawString("Library",280,710);
-		g.drawString("Study",70,700);
-		g.drawString("Dining Room",700,350);
-		g.drawString("Lounge",735,70);
-		g.drawString("Hall",750,710);
+		g.drawString("Ballroom",50,50);
+		g.drawString("Conservatory",335,500);
+		g.drawString("Kitchen",50,250);
+		g.drawString("Billiard Room",275,50);
+		g.drawString("Library",200,500);
+		g.drawString("Study",50,500);
+		g.drawString("Dining Room",500,250);
+		g.drawString("Lounge",525,50);
+		g.drawString("Hall",525,500);
 		
 		g.setColor(human.getColor());
 		g.fillOval(human.getPixelColumn(), human.getPixelRow(), human.getPixelHeight(), human.getPixelHeight());
