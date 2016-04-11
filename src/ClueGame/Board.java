@@ -101,10 +101,11 @@ public class Board extends JPanel{
 		
 		indexOne = rn.nextInt(9);
 		indexTwo = rn.nextInt(9) + 8;
-		indexThree = rn.nextInt(9) + 17;
+		indexThree = rn.nextInt(9) + 16;
 		
 		personSolution = dealDeck.get(indexOne).getCardName();
 		dealDeck.remove(indexOne);
+		System.out.println(personSolution);
 		roomSolution = dealDeck.get(indexTwo).getCardName();
 		dealDeck.remove(indexTwo);
 		weaponSolution = dealDeck.get(indexThree).getCardName();

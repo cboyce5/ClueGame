@@ -5,7 +5,7 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -19,6 +19,12 @@ import javax.swing.border.TitledBorder;
 
 public class ClueGame extends JFrame{
 	private static Board board;
+	private ArrayList<Card> humanCards;
+	private ArrayList<Card> peopleCards;
+	private ArrayList<Card> roomCards;
+	private ArrayList<Card> weaponCards;
+	
+	
 	private static ClueControlGUI controlGUI;
 	private DetectiveNotesDialog dialog;
 	public static int NUM_ROOMS = 11;
@@ -28,14 +34,38 @@ public class ClueGame extends JFrame{
 	public ClueGame() {
 		board = new Board("layout.csv", "ClueLegend.txt");
 		board.initialize();
+		board.deal();
+		
+		
 		controlGUI = new ClueControlGUI();
 		setTitle("Clue Game");
+		peopleCards = new ArrayList<Card>();
+		roomCards = new ArrayList<Card>();
+		weaponCards = new ArrayList<Card>();
+		humanCards = new ArrayList<Card>();
+		humanCards = board.getHumanPlayer().getCardsInHand();
+		
+		for(int i = 0; i < humanCards.size(); i++){
+			if(humanCards.get(i).getCardType() == CardType.PERSON){
+				peopleCards.add(humanCards.get(i));
+			}
+				
+			if(humanCards.get(i).getCardType() == CardType.ROOM){
+				roomCards.add(humanCards.get(i));
+			}
+					
+			if(humanCards.get(i).getCardType() == CardType.WEAPON){
+				weaponCards.add(humanCards.get(i));
+				
+			}
+		}
+		
 		setSize(new Dimension(800,800));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		menuBar.add(createFileMenu());
-		JPanel cardPanel = myCardPanel(board);
+		JPanel cardPanel = myCardPanel();
 		add(cardPanel, BorderLayout.EAST);
 		add(board, BorderLayout.CENTER);
 		add(controlGUI,BorderLayout.SOUTH);
@@ -48,35 +78,42 @@ public class ClueGame extends JFrame{
 		return menu;
 	}
 	
-	private JPanel myCardPanel(Board b) {
+	private JPanel myCardPanel() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(6,1));
 		panel.setBorder(new TitledBorder(new EtchedBorder(), "My Cards"));
 		
 		JPanel people = new JPanel();
-		people.setLayout(new GridLayout(1,1));
+		people.setLayout(new GridLayout(peopleCards.size(),1));
 		people.setBorder(new TitledBorder(new EtchedBorder(), "People"));
-		JTextField peopleCard = new JTextField();
-		String s = "mr green";
-		peopleCard.setText(s);
-		people.add(peopleCard);
+		JTextField peopleCard;
+		String s;
+		for (int i = 0; i < peopleCards.size(); i++) {
+			peopleCard = new JTextField();
+			s = peopleCards.get(i).getCardName();
+			peopleCard.setText(s);
+			people.add(peopleCard);
+		}
 		
 		JPanel room = new JPanel();
-		room.setLayout(new GridLayout(1,1));
+		room.setLayout(new GridLayout(roomCards.size(),1));
 		room.setBorder(new TitledBorder(new EtchedBorder(), "Rooms"));
-		JTextField roomCard = new JTextField();
-		s = "dining room";
-		roomCard.setText(s);
-		room.add(roomCard);
+		for (int i = 0; i < roomCards.size(); i++) {
+			JTextField roomCard = new JTextField();
+			s = roomCards.get(i).getCardName();
+			roomCard.setText(s);
+			room.add(roomCard);
+		}
 		
 		JPanel weapon = new JPanel();
-		weapon.setLayout(new GridLayout(1,1));
+		weapon.setLayout(new GridLayout(weaponCards.size(),1));
 		weapon.setBorder(new TitledBorder(new EtchedBorder(), "Weapons"));
-		JTextField weaponCard = new JTextField();
-		s = "pipe";
-		weaponCard.setText(s);
-		weapon.add(weaponCard);
-		
+		for (int i = 0; i < weaponCards.size(); i++) {
+			JTextField weaponCard = new JTextField();
+			s = weaponCards.get(i).getCardName();
+			weaponCard.setText(s);
+			weapon.add(weaponCard);
+		}
 		panel.add(people);
 		panel.add(room);
 		panel.add(weapon);
