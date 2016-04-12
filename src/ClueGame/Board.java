@@ -39,6 +39,8 @@ public class Board extends JPanel{
 	private String roomSolution;
 	private String weaponSolution;
 	
+	private static int turnCount;
+	
 	public Board(String layout, String legend){
 		super();
 		this.boardConfigFile = layout;
@@ -50,6 +52,7 @@ public class Board extends JPanel{
 		this.boardConfigFile = "ClueLayout.csv";
 		this.roomConfigFile = "ClueLegend.txt";
 	}
+
 	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);

@@ -24,7 +24,6 @@ public class ClueGame extends JFrame{
 	private ArrayList<Card> roomCards;
 	private ArrayList<Card> weaponCards;
 	
-	
 	private static ClueControlGUI controlGUI;
 	private DetectiveNotesDialog dialog;
 	public static int NUM_ROOMS = 11;
@@ -142,6 +141,10 @@ public class ClueGame extends JFrame{
 		}
 		item.addActionListener(new MenuItemListener());
 		return item;
+	}
+	
+	public static void nextPlayer() {
+		
 	}
 
 	public static void main(String[] args) {

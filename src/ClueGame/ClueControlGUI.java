@@ -2,6 +2,8 @@ package ClueGame;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -31,7 +33,7 @@ public class ClueControlGUI extends JPanel{
 		//Guess panel
 		JPanel guessPanel = new JPanel();
 		JLabel guessLabel = new JLabel("Guess");
-		JTextField guessResult = new JTextField(30);
+		JTextField guessResult = new JTextField(10);
 		guessResult.setEditable(false);
 		guessPanel.add(guessLabel);
 		guessPanel.add(guessResult);
@@ -50,6 +52,7 @@ public class ClueControlGUI extends JPanel{
 		JPanel topPanel = new JPanel();
 		topPanel.setLayout(new GridLayout(1,3));
 		JButton nextPlayerButton = new JButton("Next Player");
+		nextPlayerButton.addActionListener(new NextPlayerListener());
 		JButton accusationButton = new JButton("Make an Accusation");
 		JLabel whoseTurn = new JLabel("Whose Turn?");
 		JTextField turnField = new JTextField(20);
@@ -72,6 +75,17 @@ public class ClueControlGUI extends JPanel{
 		add(topPanel);
 		add(bottomPanel);
 
+	}
+	
+	public void update() {
+		
+	}
+	
+	private class NextPlayerListener implements ActionListener
+	{
+		public void actionPerformed(ActionEvent e) {
+			ClueGame.nextPlayer();
+		}
 	}
 
 }
