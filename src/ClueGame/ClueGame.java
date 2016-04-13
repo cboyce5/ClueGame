@@ -6,6 +6,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Random;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -29,6 +30,9 @@ public class ClueGame extends JFrame{
 	public static int NUM_ROOMS = 11;
 	public static int NUM_ROWS = 25;
 	public static int NUM_COLUMNS = 25;
+	
+	private static int playerCount = 0;
+	private boolean humanMustFinish = true;
 	
 	public ClueGame() {
 		board = new Board("layout.csv", "ClueLegend.txt");
@@ -144,6 +148,19 @@ public class ClueGame extends JFrame{
 	}
 	
 	public static void nextPlayer() {
+		Random rn = new Random();
+		int roll = rn.nextInt(6)+1;
+		
+		if (playerCount % 9 == 0) {
+			board.getHumanPlayer().makeMove(board,roll);
+			controlGUI.update(board.getHumanPlayer(),roll);
+		}
+		else {
+			board.getComputerPlayers().get(playerCount % 8).makeMove(board, roll);
+			controlGUI.update(board.getComputerPlayers().get(playerCount % 8),roll);
+		}
+		playerCount++;
+		
 		
 	}
 

@@ -15,6 +15,14 @@ import javax.swing.border.TitledBorder;
 
 public class ClueControlGUI extends JPanel{
 	
+	private JPanel diePanel;
+	private JLabel dieLabel;
+	private JTextField rollResult;
+	private JPanel guessPanel;
+	private JTextField guessResult;
+	private JLabel guessLabel;
+	private JTextField turnField;
+	
 	public ClueControlGUI() {
 		setLayout();
 		setLayout(new GridLayout(2,3));
@@ -22,18 +30,18 @@ public class ClueControlGUI extends JPanel{
 	
 	private void setLayout() {
 		//Die panel
-		JPanel diePanel = new JPanel();
-		JLabel dieLabel = new JLabel("Roll");
-		JTextField rollResult = new JTextField(5);
+		diePanel = new JPanel();
+		dieLabel = new JLabel("Roll");
+		rollResult = new JTextField(5);
 		rollResult.setEditable(false);
 		diePanel.add(dieLabel);
 		diePanel.add(rollResult);
 		diePanel.setBorder(new TitledBorder(new EtchedBorder(), "Die"));
 		
 		//Guess panel
-		JPanel guessPanel = new JPanel();
-		JLabel guessLabel = new JLabel("Guess");
-		JTextField guessResult = new JTextField(10);
+		guessPanel = new JPanel();
+		guessLabel = new JLabel("Guess");
+		guessResult = new JTextField(10);
 		guessResult.setEditable(false);
 		guessPanel.add(guessLabel);
 		guessPanel.add(guessResult);
@@ -55,7 +63,7 @@ public class ClueControlGUI extends JPanel{
 		nextPlayerButton.addActionListener(new NextPlayerListener());
 		JButton accusationButton = new JButton("Make an Accusation");
 		JLabel whoseTurn = new JLabel("Whose Turn?");
-		JTextField turnField = new JTextField(20);
+		turnField = new JTextField(20);
 		turnField.setEditable(false);
 		JPanel turnPanel = new JPanel();
 		turnPanel.setLayout(new GridLayout(2,1));
@@ -77,8 +85,9 @@ public class ClueControlGUI extends JPanel{
 
 	}
 	
-	public void update() {
-		
+	public void update(Player p,int roll) {
+		turnField.setText(p.getPlayerName());
+		rollResult.setText(Integer.toString(roll));
 	}
 	
 	private class NextPlayerListener implements ActionListener

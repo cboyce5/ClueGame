@@ -59,6 +59,7 @@ public class BoardCell {
 		}
 		
 	}
+
 	
 	public boolean isWalkway(){
 		if(initial=='W')

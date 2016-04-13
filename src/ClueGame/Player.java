@@ -90,5 +90,15 @@ public class Player {
 		return pixelWidth;
 	}
 
+	public void setRow(int row) {
+		this.row = row;
+		this.pixelRow = row * 25;
+	}
+
+	public void setColumn(int column) {
+		this.column = column;
+		this.pixelColumn = column * 25;
+	}
+
 	
 }

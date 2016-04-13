@@ -1,6 +1,7 @@
 package ClueGame;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
@@ -41,5 +42,14 @@ public class ComputerPlayer extends Player{
 	
 	public BoardCell getNextCell() {
 		return nextCell;
+	}
+	
+	public void makeMove(Board b, int r) {
+		b.repaint();
+		b.calcTargets(b.getCellAt(this.getRow(), this.getColumn()), r);
+		this.nextCell = pickLocation(b.getTargets());
+		this.setRow(nextCell.getRow());
+		this.setColumn(nextCell.getColumn());
+		b.repaint();
 	}
 }

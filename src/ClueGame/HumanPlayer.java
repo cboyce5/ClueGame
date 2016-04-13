@@ -8,5 +8,11 @@ public class HumanPlayer extends Player{
 		super(playerName, row, column, color);
 		
 	}
+	
+	public void makeMove(Board b, int r) {
+		b.calcTargets(b.getCellAt(this.getRow(), this.getColumn()), r);
+		b.setHighlight(true);
+		b.repaint();
+	}
 
 }

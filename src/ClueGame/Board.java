@@ -1,6 +1,8 @@
 package ClueGame;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.lang.reflect.Field;
@@ -39,8 +41,16 @@ public class Board extends JPanel{
 	private String roomSolution;
 	private String weaponSolution;
 	
-	private static int turnCount;
+	private boolean highlight;
 	
+	public boolean isHighlight() {
+		return highlight;
+	}
+
+	public void setHighlight(boolean highlight) {
+		this.highlight = highlight;
+	}
+
 	public Board(String layout, String legend){
 		super();
 		this.boardConfigFile = layout;
@@ -53,9 +63,34 @@ public class Board extends JPanel{
 		this.roomConfigFile = "ClueLegend.txt";
 	}
 
+	private class targetListener implements MouseListener {
+
+
+		public void mouseClicked(MouseEvent event) {
+			
+		}
+		public void mouseEntered(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+		public void mouseExited(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+		public void mousePressed(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+		public void mouseReleased(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+	}
 	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		
 		for (int i = 0; i < numRows; i++) {
 			for (int j = 0; j < numColumns; j++) {
 				this.board[i][j].draw(g);
@@ -83,6 +118,13 @@ public class Board extends JPanel{
 			g.fillOval(computerPlayers.get(i).getPixelColumn(), computerPlayers.get(i).getPixelRow(), computerPlayers.get(i).getPixelHeight(), computerPlayers.get(i).getPixelHeight());
 			g.setColor(Color.BLACK);
 			g.drawOval(computerPlayers.get(i).getPixelColumn(), computerPlayers.get(i).getPixelRow(), computerPlayers.get(i).getPixelHeight(), computerPlayers.get(i).getPixelHeight());
+		}
+		if (this.highlight == true) {
+			g.setColor(Color.CYAN);
+			for (BoardCell a: targets) {
+				g.fillRect(a.getColumn()*25, a.getRow()*25, 25, 25);
+			}
+			this.highlight = false;
 		}
 	}
 	
@@ -295,11 +337,13 @@ public class Board extends JPanel{
 	}
 	
 	public void initialize() {
+		this.highlight = false;
 		try {
 			loadRoomConfig();
 			loadBoardConfig();
 			loadCardConfig();
 			calcAdjacencies();
+			
 		}
 		catch(BadConfigFormatException e){
 			System.out.println(e.getMessage());
