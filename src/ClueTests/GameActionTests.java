@@ -188,7 +188,7 @@ public class GameActionTests {
 		
 		//Test people disprove orderly
 		Solution doubleDisprove = new Solution("Miss Scarlet","Ballroom","Sword");
-		assertEquals(board.handleSuggestion(doubleDisprove, disprover1.getPlayerName(),  new BoardCell(0,0,'W')), new Card("Miss Scarlet",CardType.PERSON));
+		assertEquals(board.handleSuggestion(doubleDisprove, disprover1.getPlayerName(),  new BoardCell(0,0,'W')), new Card("Ballroom",CardType.ROOM));
 		Solution furthestDisprove = new Solution("Mr Green","Dining","Sword");
 		assertEquals(board.handleSuggestion(furthestDisprove, players.get(0).getPlayerName(),  new BoardCell(0,0,'W')), new Card("Mr Green",CardType.PERSON));
 	}

@@ -31,8 +31,8 @@ public class ClueGame extends JFrame{
 	public static int NUM_ROWS = 25;
 	public static int NUM_COLUMNS = 25;
 	
+	
 	private static int playerCount = 0;
-	private boolean humanMustFinish = true;
 	
 	public ClueGame() {
 		board = new Board("layout.csv", "ClueLegend.txt");
@@ -148,18 +148,23 @@ public class ClueGame extends JFrame{
 	}
 	
 	public static void nextPlayer() {
-		Random rn = new Random();
-		int roll = rn.nextInt(6)+1;
-		
-		if (playerCount % 9 == 0) {
-			board.getHumanPlayer().makeMove(board,roll);
-			controlGUI.update(board.getHumanPlayer(),roll);
+		if (!board.humanMustFinish) {
+			Random rn = new Random();
+			int roll = rn.nextInt(6) + 1;
+			if (playerCount % 9 == 0) {
+				board.humanMustFinish = true;
+				board.getHumanPlayer().makeMove(board, roll);
+				controlGUI.update(board.getHumanPlayer(), roll);
+
+			} else {
+				board.getComputerPlayers().get(playerCount % 8).makeMove(board, roll);
+				controlGUI.update(board.getComputerPlayers().get(playerCount % 8), roll);
+			}
+			playerCount++;
 		}
 		else {
-			board.getComputerPlayers().get(playerCount % 8).makeMove(board, roll);
-			controlGUI.update(board.getComputerPlayers().get(playerCount % 8),roll);
+			JOptionPane.showMessageDialog(board, "You must finish your turn", "Error",JOptionPane.INFORMATION_MESSAGE);
 		}
-		playerCount++;
 		
 		
 	}

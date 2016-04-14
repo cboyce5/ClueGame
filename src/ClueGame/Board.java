@@ -15,6 +15,7 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class Board extends JPanel implements MouseListener{
@@ -43,6 +44,7 @@ public class Board extends JPanel implements MouseListener{
 	
 	private boolean highlight;
 	public boolean humanTurn = false;
+	public boolean humanMustFinish = false;
 	
 	private BoardCell humanTarget;
 	
@@ -52,27 +54,42 @@ public class Board extends JPanel implements MouseListener{
 		super();
 		this.boardConfigFile = layout;
 		this.roomConfigFile = legend;
+		addMouseListener(this);
 	}
 
 	public Board(){
 		super();
 		this.boardConfigFile = "ClueLayout.csv";
 		this.roomConfigFile = "ClueLegend.txt";
+		addMouseListener(this);
 	}
 	
-	public void mouseClicked(MouseEvent e) {
-		if (humanTurn) {
-			System.out.println("here");
-			BoardCell t = null;
+	public void mouseClicked(MouseEvent e) {	
+		
+		if (humanTurn == true) {
+			humanTarget = null;
 			for (BoardCell a: targets) {
 				if (a.containsClick(e.getX(), e.getY())){
-					t = a;
+					humanTarget = a;
 					break;
 				}
+			
 			}
-			System.out.println(t);	
+			if (humanTarget != null) {
+				this.getHumanPlayer().setRow(humanTarget.getRow());
+				this.getHumanPlayer().setColumn(humanTarget.getColumn());
+				
+				this.repaint();
+				humanTurn = false; 
+				humanMustFinish = false;
+				
+			}
+			else
+				JOptionPane.showMessageDialog(this, "Invalid Target.", "Error", JOptionPane.INFORMATION_MESSAGE);
+				
 			
 		}
+		
 		
 	}
 	

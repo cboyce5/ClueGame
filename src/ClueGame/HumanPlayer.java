@@ -14,9 +14,6 @@ public class HumanPlayer extends Player{
 		b.setHighlight(true);
 		b.repaint();
 		b.humanTurn = true;
-		//this.setRow(b.getHumanTarget().getRow());
-		//this.setColumn(b.getHumanTarget().getColumn());
-		b.repaint();
 	}
 
 }
