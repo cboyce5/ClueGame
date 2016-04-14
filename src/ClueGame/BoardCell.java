@@ -2,6 +2,8 @@ package ClueGame;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.Rectangle;
 
 public class BoardCell {
 	private int row;
@@ -23,6 +25,13 @@ public class BoardCell {
 		this.initial = initial;
 		this.pixelRow = row * pixelHeight;
 		this.pixelCol = column * pixelWidth;
+	}
+	
+	public boolean containsClick(int x, int y) {
+		Rectangle r = new Rectangle(pixelCol, pixelRow, pixelHeight, pixelWidth);
+		if (r.contains(new Point(x,y)))
+			return true;
+		return false;
 	}
 	
 	public void draw(Graphics g) {

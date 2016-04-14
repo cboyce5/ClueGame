@@ -17,7 +17,7 @@ import java.util.Set;
 
 import javax.swing.JPanel;
 
-public class Board extends JPanel{
+public class Board extends JPanel implements MouseListener{
 	private Map<BoardCell, LinkedList<BoardCell>> adjMtx;
 	private Set<BoardCell> visited;
 	private Set<BoardCell> targets;
@@ -42,14 +42,11 @@ public class Board extends JPanel{
 	private String weaponSolution;
 	
 	private boolean highlight;
+	public boolean humanTurn = false;
 	
-	public boolean isHighlight() {
-		return highlight;
-	}
+	private BoardCell humanTarget;
+	
 
-	public void setHighlight(boolean highlight) {
-		this.highlight = highlight;
-	}
 
 	public Board(String layout, String legend){
 		super();
@@ -62,31 +59,28 @@ public class Board extends JPanel{
 		this.boardConfigFile = "ClueLayout.csv";
 		this.roomConfigFile = "ClueLegend.txt";
 	}
-
-	private class targetListener implements MouseListener {
-
-
-		public void mouseClicked(MouseEvent event) {
-			
-		}
-		public void mouseEntered(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-			
-		}
-		public void mouseExited(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-			
-		}
-		public void mousePressed(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-			
-		}
-		public void mouseReleased(MouseEvent arg0) {
-			// TODO Auto-generated method stub
+	
+	public void mouseClicked(MouseEvent e) {
+		if (humanTurn) {
+			System.out.println("here");
+			BoardCell t = null;
+			for (BoardCell a: targets) {
+				if (a.containsClick(e.getX(), e.getY())){
+					t = a;
+					break;
+				}
+			}
+			System.out.println(t);	
 			
 		}
 		
 	}
+	
+	public void mouseEntered(MouseEvent arg0) {}
+	public void mouseExited(MouseEvent arg0) {}
+	public void mousePressed(MouseEvent arg0) {}
+	public void mouseReleased(MouseEvent arg0) {}
+		
 	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -481,5 +475,18 @@ public class Board extends JPanel{
 		this.human = human;
 		this.computerPlayers = computerPlayers;
 	}
+	
+	public boolean isHighlight() {
+		return highlight;
+	}
+
+	public void setHighlight(boolean highlight) {
+		this.highlight = highlight;
+	}
+
+	public BoardCell getHumanTarget() {
+		return humanTarget;
+	}
+	
 	
 }
