@@ -157,8 +157,10 @@ public class ClueGame extends JFrame{
 				controlGUI.update(board.getHumanPlayer(), roll);
 
 			} else {
-				board.getComputerPlayers().get(playerCount % 8).makeMove(board, roll);
-				controlGUI.update(board.getComputerPlayers().get(playerCount % 8), roll);
+				ComputerPlayer player = board.getComputerPlayers().get(playerCount % 8);
+				player.setLastCell(board.getCellAt(player.getRow(), player.getColumn()));
+				player.makeMove(board, roll);
+				controlGUI.update(player, roll);
 			}
 			playerCount++;
 		}

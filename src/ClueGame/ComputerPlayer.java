@@ -7,6 +7,7 @@ import java.util.Random;
 import java.util.Set;
 
 public class ComputerPlayer extends Player{
+	private BoardCell lastCell;
 	private BoardCell nextCell;
 	
 	public ComputerPlayer(String playerName, int row, int column, Color color) {
@@ -17,7 +18,9 @@ public class ComputerPlayer extends Player{
 	public BoardCell pickLocation(Set<BoardCell> targets) {
 		for (BoardCell b:targets) {
 			if (b.isRoom()) {
-				return b;
+				if (b != lastCell && b.getInitial() != lastCell.getInitial()) {
+					return b;
+				}
 			}
 		}
 		Random rnd = new Random();
@@ -52,4 +55,14 @@ public class ComputerPlayer extends Player{
 		this.setColumn(nextCell.getColumn());
 		b.repaint();
 	}
+
+	public BoardCell getLastCell() {
+		return lastCell;
+	}
+
+	public void setLastCell(BoardCell lastCell) {
+		this.lastCell = lastCell;
+	}
+	
+	
 }
