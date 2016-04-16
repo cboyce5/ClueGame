@@ -43,6 +43,37 @@ public class ComputerPlayer extends Player{
 		return s;
 	}
 	
+	public void updateCardsNotSeen(Card card) {
+		
+		if (card.getCardType() == CardType.PERSON) {
+			for (int i = 0; i < this.getCardsNotSeen().get(CardType.PERSON).size(); i++) {
+				Card c = this.getCardsNotSeen().get(CardType.PERSON).get(i);
+				if (c.equals(card)) {
+					this.getCardsNotSeen().get(CardType.PERSON).remove(i);
+					return;
+				}
+			}
+		}
+		if (card.getCardType() == CardType.ROOM) {
+			for (int i = 0; i < this.getCardsNotSeen().get(CardType.ROOM).size(); i++) {
+				Card c = this.getCardsNotSeen().get(CardType.ROOM).get(i);
+				if (c.equals(card)) {
+					this.getCardsNotSeen().get(CardType.ROOM).remove(i);
+					return;
+				}
+			}
+		}
+		if (card.getCardType() == CardType.WEAPON) {
+			for (int i = 0; i < this.getCardsNotSeen().get(CardType.WEAPON).size(); i++) {
+				Card c = this.getCardsNotSeen().get(CardType.WEAPON).get(i);
+				if (c.equals(card)) {
+					this.getCardsNotSeen().get(CardType.WEAPON).remove(i);
+					return;
+				}
+			}
+		}
+	}
+	
 	public BoardCell getNextCell() {
 		return nextCell;
 	}

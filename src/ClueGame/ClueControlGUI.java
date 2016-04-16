@@ -22,10 +22,13 @@ public class ClueControlGUI extends JPanel{
 	private JTextField guessResult;
 	private JLabel guessLabel;
 	private JTextField turnField;
+	private JPanel resultPanel;
+	private JLabel guessResultLabel;
+	private JTextField guessResultText;
 	
 	public ClueControlGUI() {
 		setLayout();
-		setLayout(new GridLayout(2,3));
+		setLayout(new GridLayout(2,1));
 	}
 	
 	private void setLayout() {
@@ -41,20 +44,20 @@ public class ClueControlGUI extends JPanel{
 		//Guess panel
 		guessPanel = new JPanel();
 		guessLabel = new JLabel("Guess");
-		guessResult = new JTextField(10);
+		guessResult = new JTextField(30);
 		guessResult.setEditable(false);
 		guessPanel.add(guessLabel);
 		guessPanel.add(guessResult);
 		guessPanel.setBorder(new TitledBorder(new EtchedBorder(), "Guess"));
 		
 		//Guess Result panel
-		JPanel resultPanel = new JPanel();
-		JLabel guessResultLabel = new JLabel("Guess Result");
-		JTextField guessResultText = new JTextField(10);
+		resultPanel = new JPanel();
+		guessResultLabel = new JLabel("Guess Result");
+		guessResultText = new JTextField(10);
 		guessResultText.setEditable(false);
 		resultPanel.add(guessResultLabel);
 		resultPanel.add(guessResultText);
-		resultPanel.setBorder(new TitledBorder(new EtchedBorder(), "Guess"));
+		resultPanel.setBorder(new TitledBorder(new EtchedBorder(), "Guess Result"));
 		
 		//Top panel with label, text and 2 buttons
 		JPanel topPanel = new JPanel();
@@ -73,8 +76,7 @@ public class ClueControlGUI extends JPanel{
 		topPanel.add(nextPlayerButton);
 		topPanel.add(accusationButton);
 		
-		JPanel bottomPanel = new JPanel();
-		bottomPanel.setLayout(new GridLayout(1,3));
+		JPanel bottomPanel = new JPanel();;
 		bottomPanel.add(diePanel);
 		bottomPanel.add(guessPanel);
 		bottomPanel.add(resultPanel);
@@ -85,9 +87,12 @@ public class ClueControlGUI extends JPanel{
 
 	}
 	
-	public void update(Player p,int roll) {
+	public void update(Player p,int roll, String solution, String card) {
 		turnField.setText(p.getPlayerName());
 		rollResult.setText(Integer.toString(roll));
+		guessResult.setText(solution);
+		guessResultText.setText(card);
+		
 	}
 	
 	private class NextPlayerListener implements ActionListener

@@ -3,7 +3,7 @@ package ClueGame;
 public class Solution {
 	@Override
 	public String toString() {
-		return "Solution [person=" + person + ", room=" + room + ", weapon=" + weapon + "]";
+		return person + "  "+ room + "  " + weapon;
 	}
 
 	public String person;

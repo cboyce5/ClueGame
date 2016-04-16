@@ -152,15 +152,44 @@ public class ClueGame extends JFrame{
 			Random rn = new Random();
 			int roll = rn.nextInt(6) + 1;
 			if (playerCount % 9 == 0) {
+				HumanPlayer human = board.getHumanPlayer();
 				board.humanMustFinish = true;
-				board.getHumanPlayer().makeMove(board, roll);
-				controlGUI.update(board.getHumanPlayer(), roll);
+				human.makeMove(board, roll);
+				if (board.getHumanSolution() != null) {
+					Card c = board.handleSuggestion(human.getHumanSolution(), human.getPlayerName(), board.getCellAt(human.getRow(), human.getColumn()));
+					if (c !=  null) {
+						controlGUI.update(board.getHumanPlayer(), roll, human.getHumanSolution().toString(),c.getCardName());
+					}
+					else {
+						controlGUI.update(board.getHumanPlayer(), roll,human.getHumanSolution().toString(),"No New Clue");
+					}
+				}
+				else {
+					controlGUI.update(board.getHumanPlayer(), roll,"","");
+				}
+				
 
 			} else {
+				
 				ComputerPlayer player = board.getComputerPlayers().get(playerCount % 8);
-				player.setLastCell(board.getCellAt(player.getRow(), player.getColumn()));
+				player.setLastCell(board.getCellAt(player.getColumn(), player.getRow()));
 				player.makeMove(board, roll);
-				controlGUI.update(player, roll);
+				if (player.getNextCell().isRoom()) {
+					System.out.println(player.getCardsNotSeen());
+					Solution playerSolution = player.makeSuggestion(board, player.getNextCell());
+					Card c = board.handleSuggestion(playerSolution, player.getPlayerName(), player.getNextCell());
+					if (c != null) {
+						player.updateCardsNotSeen(c);
+						controlGUI.update(player, roll, playerSolution.toString(), c.getCardName());
+					}
+					else {
+						controlGUI.update(player, roll, playerSolution.toString(), "No New Clue");
+					}
+				}
+				else {
+					controlGUI.update(player, roll, "","");
+				}
+				
 			}
 			playerCount++;
 		}

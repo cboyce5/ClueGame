@@ -142,10 +142,6 @@ public class DetectiveNotesDialog extends JDialog{
 		add(weaponPanel);
 		add(weaponGuess);
 		
-		
-		
-		
-		
 	}
 
 }

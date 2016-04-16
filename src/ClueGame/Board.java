@@ -47,7 +47,7 @@ public class Board extends JPanel implements MouseListener{
 	public boolean humanMustFinish = false;
 	
 	private BoardCell humanTarget;
-	
+	private Solution humanSolution;
 
 
 	public Board(String layout, String legend){
@@ -78,6 +78,13 @@ public class Board extends JPanel implements MouseListener{
 			if (humanTarget != null) {
 				this.getHumanPlayer().setRow(humanTarget.getRow());
 				this.getHumanPlayer().setColumn(humanTarget.getColumn());
+				
+				if (this.getCellAt(human.getRow(), human.getColumn()).isRoom()) {
+					HumanSuggestionBox box = new HumanSuggestionBox(this.getRooms().get(this.getCellAt(human.getRow(), human.getColumn()).getInitial()));
+					box.setVisible(true);
+					this.humanSolution = box.solution;
+				}
+				
 				
 				this.repaint();
 				humanTurn = false; 
@@ -155,6 +162,28 @@ public class Board extends JPanel implements MouseListener{
 		
 		Random rn = new Random();
 		
+		ArrayList<Card> r = new ArrayList<Card>();
+		ArrayList<Card> p = new ArrayList<Card>();
+		ArrayList<Card> w = new ArrayList<Card>();
+		for (int i = 0; i < 9; i++) {
+			p.add(deck.get(i));
+		}
+		for (int i = 9; i < 18; i++) {
+			r.add(deck.get(i));
+		}
+		for (int i = 18; i < 27; i++) {
+			w.add(deck.get(i));
+		}
+		HashMap<CardType,ArrayList<Card>> t = new HashMap<CardType,ArrayList<Card>>();
+		t.put(CardType.PERSON, p);
+		t.put(CardType.ROOM, r);
+		t.put(CardType.WEAPON, w);
+		
+		for (int i = 0; i< this.getComputerPlayers().size(); i++) {
+			this.getComputerPlayers().get(i).setCardsNotSeen(t);
+			System.out.println(this.getComputerPlayers().get(i).getCardsNotSeen());
+		}
+		
 		indexOne = rn.nextInt(9);
 		indexTwo = rn.nextInt(9) + 8;
 		indexThree = rn.nextInt(9) + 16;
@@ -178,6 +207,11 @@ public class Board extends JPanel implements MouseListener{
 				dealDeck.remove(index);
 			}
 			count++;
+		}
+		
+		for (int i = 0; i< this.getComputerPlayers().size(); i++) {
+			System.out.println(this.getComputerPlayers().get(i).getCardsInHand());
+			System.out.println(this.getComputerPlayers().get(i).getCardsNotSeen());
 		}
 	}
 	
@@ -503,6 +537,10 @@ public class Board extends JPanel implements MouseListener{
 
 	public BoardCell getHumanTarget() {
 		return humanTarget;
+	}
+
+	public Solution getHumanSolution() {
+		return humanSolution;
 	}
 	
 	
