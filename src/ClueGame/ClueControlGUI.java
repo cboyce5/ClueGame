@@ -65,6 +65,7 @@ public class ClueControlGUI extends JPanel{
 		JButton nextPlayerButton = new JButton("Next Player");
 		nextPlayerButton.addActionListener(new NextPlayerListener());
 		JButton accusationButton = new JButton("Make an Accusation");
+		accusationButton.addActionListener(new accusationListener());
 		JLabel whoseTurn = new JLabel("Whose Turn?");
 		turnField = new JTextField(20);
 		turnField.setEditable(false);
@@ -100,6 +101,14 @@ public class ClueControlGUI extends JPanel{
 		public void actionPerformed(ActionEvent e) {
 			ClueGame.nextPlayer();
 		}
+	}
+	
+	private class accusationListener implements ActionListener
+	{
+		public void actionPerformed(ActionEvent e) {
+			ClueGame.accusation();
+		}
+
 	}
 
 }

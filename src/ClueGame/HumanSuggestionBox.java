@@ -3,6 +3,7 @@ package ClueGame;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -15,20 +16,23 @@ public class HumanSuggestionBox extends JDialog{
 	private JComboBox<String> weapon;
 	public Solution solution;
 	
-	public HumanSuggestionBox(String roomName) {
+	public HumanSuggestionBox(ArrayList<String> roomNames) {
 		setTitle("Suggestion");
 		setSize(300,300);
 		setLayout(new GridLayout(4,2));
-		setUp(roomName);
+		setUp(roomNames);
+		this.setModal(true);
 	}
 	
-	public void setUp(String s) {
+	public void setUp(ArrayList<String> roomNames) {
 		JLabel roomLabel = new JLabel("Your Room");
 		JLabel personLabel = new JLabel("Person");
 		JLabel weaponLabel = new JLabel("Weapon");
 		
 		room = new JComboBox<String>();
-		room.addItem(s);
+		for (String s: roomNames) {
+			room.addItem(s);
+		}
 		room.setEditable(false);
 		
 		person = new JComboBox<String>();

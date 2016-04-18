@@ -31,13 +31,13 @@ public class ClueGame extends JFrame{
 	public static int NUM_ROWS = 25;
 	public static int NUM_COLUMNS = 25;
 	
-	
 	private static int playerCount = 0;
 	
 	public ClueGame() {
 		board = new Board("layout.csv", "ClueLegend.txt");
 		board.initialize();
 		board.deal();
+		
 		
 		
 		controlGUI = new ClueControlGUI();
@@ -152,17 +152,39 @@ public class ClueGame extends JFrame{
 			Random rn = new Random();
 			int roll = rn.nextInt(6) + 1;
 			if (playerCount % 9 == 0) {
+				board.beginningHumanTurn = true;
 				HumanPlayer human = board.getHumanPlayer();
 				board.humanMustFinish = true;
 				human.makeMove(board, roll);
+				System.out.println(board.getHumanSolution());
+				
 				if (board.getHumanSolution() != null) {
-					Card c = board.handleSuggestion(human.getHumanSolution(), human.getPlayerName(), board.getCellAt(human.getRow(), human.getColumn()));
-					if (c !=  null) {
-						controlGUI.update(board.getHumanPlayer(), roll, human.getHumanSolution().toString(),c.getCardName());
+					
+					if (board.returnCard !=  null) {
+						controlGUI.update(board.getHumanPlayer(), roll, board.getHumanSolution().toString(),board.returnCard.getCardName());
 					}
 					else {
-						controlGUI.update(board.getHumanPlayer(), roll,human.getHumanSolution().toString(),"No New Clue");
+						controlGUI.update(board.getHumanPlayer(), roll,board.getHumanSolution().toString(),"No New Clue");
 					}
+					if (board.getHumanSolution().person == human.getPlayerName()) {
+						board.getHumanPlayer().setColumn(board.getRoomDoorCell().get(board.getHumanSolution().room).getColumn());
+						board.getHumanPlayer().setRow(board.getRoomDoorCell().get(board.getHumanSolution().room).getRow());
+						board.repaint();
+					}
+					else {
+						int index = 0;
+						for (int i= 0; i < board.getComputerPlayers().size(); i++) {
+							if (board.getHumanSolution().person == board.getComputerPlayers().get(i).getPlayerName()) {
+								index = i;
+								break;
+							}
+						}
+						board.getComputerPlayers().get(index).setColumn(board.getRoomDoorCell().get(board.getHumanSolution().room).getColumn());
+						board.getComputerPlayers().get(index).setRow(board.getRoomDoorCell().get(board.getHumanSolution().room).getRow());
+						board.repaint();
+					}
+					
+					
 				}
 				else {
 					controlGUI.update(board.getHumanPlayer(), roll,"","");
@@ -175,7 +197,6 @@ public class ClueGame extends JFrame{
 				player.setLastCell(board.getCellAt(player.getColumn(), player.getRow()));
 				player.makeMove(board, roll);
 				if (player.getNextCell().isRoom()) {
-					System.out.println(player.getCardsNotSeen());
 					Solution playerSolution = player.makeSuggestion(board, player.getNextCell());
 					Card c = board.handleSuggestion(playerSolution, player.getPlayerName(), player.getNextCell());
 					if (c != null) {
@@ -184,6 +205,23 @@ public class ClueGame extends JFrame{
 					}
 					else {
 						controlGUI.update(player, roll, playerSolution.toString(), "No New Clue");
+					}
+					if (playerSolution.person == board.getHumanPlayer().getPlayerName()) {
+						board.getHumanPlayer().setColumn(board.getRoomDoorCell().get(playerSolution.room).getColumn());
+						board.getHumanPlayer().setRow(board.getRoomDoorCell().get(playerSolution.room).getRow());
+						board.repaint();
+					}
+					else {
+						int index = 0;
+						for (int i= 0; i < board.getComputerPlayers().size(); i++) {
+							if (playerSolution.person == board.getComputerPlayers().get(i).getPlayerName()) {
+								index = i;
+								break;
+							}
+						}
+						board.getComputerPlayers().get(index).setColumn(board.getRoomDoorCell().get(playerSolution.room).getColumn());
+						board.getComputerPlayers().get(index).setRow(board.getRoomDoorCell().get(playerSolution.room).getRow());
+						board.repaint();
 					}
 				}
 				else {
@@ -198,8 +236,28 @@ public class ClueGame extends JFrame{
 		}
 		
 		
+		
 	}
 
+	
+	public static void accusation() {
+		System.out.println(playerCount);
+		System.out.println(board.beginningHumanTurn);
+		if (playerCount % 9 == 1 && board.beginningHumanTurn) {
+			HumanSuggestionBox box = new HumanSuggestionBox(board.getAllRooms());
+			box.setVisible(true);
+			if (board.checkAccusation(box.solution)) {
+				JOptionPane.showMessageDialog(board, "You are correct!", "Game Over",JOptionPane.INFORMATION_MESSAGE);
+			}
+			else {
+				JOptionPane.showMessageDialog(board, "Sorry, that is not correct", "",JOptionPane.INFORMATION_MESSAGE);
+			}
+		}
+		else {
+			JOptionPane.showMessageDialog(board, "It is not your turn", "Error",JOptionPane.INFORMATION_MESSAGE);
+		}
+	}
+	
 	public static void main(String[] args) {
 		ClueGame game = new ClueGame();
 		game.setVisible(true);

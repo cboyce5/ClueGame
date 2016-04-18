@@ -3,7 +3,6 @@ package ClueGame;
 import java.awt.Color;
 
 public class HumanPlayer extends Player{
-	private Solution humanSolution;
 
 	public HumanPlayer(String playerName, int row, int column, Color color) {
 		super(playerName, row, column, color);
@@ -14,14 +13,6 @@ public class HumanPlayer extends Player{
 		b.setHighlight(true);
 		b.repaint();
 		b.humanTurn = true;
-	}
-
-	public Solution getHumanSolution() {
-		return humanSolution;
-	}
-
-	public void setHumanSolution(Solution humanSolution) {
-		this.humanSolution = humanSolution;
 	}
 
 	

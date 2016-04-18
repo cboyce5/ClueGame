@@ -26,11 +26,13 @@ public class Board extends JPanel implements MouseListener{
 	private int numRows;
 	private int numColumns;
 	private static Map<Character,String> rooms;
+	private Map<String,BoardCell> roomDoorCell;
 	public final static int BOARD_SIZE = 50;
 	private String boardConfigFile;
 	private String roomConfigFile;
 	private ArrayList<String> listBoard;
 	private ArrayList<Card> deck;
+	private ArrayList<String> allRooms;
 	
 	private ArrayList<ComputerPlayer> computerPlayers;
 	private HumanPlayer human;
@@ -45,9 +47,12 @@ public class Board extends JPanel implements MouseListener{
 	private boolean highlight;
 	public boolean humanTurn = false;
 	public boolean humanMustFinish = false;
+	public boolean beginningHumanTurn = false;
 	
 	private BoardCell humanTarget;
 	private Solution humanSolution;
+	private HumanSuggestionBox box;
+	public Card returnCard;
 
 
 	public Board(String layout, String legend){
@@ -67,6 +72,7 @@ public class Board extends JPanel implements MouseListener{
 	public void mouseClicked(MouseEvent e) {	
 		
 		if (humanTurn == true) {
+			beginningHumanTurn = false;
 			humanTarget = null;
 			for (BoardCell a: targets) {
 				if (a.containsClick(e.getX(), e.getY())){
@@ -79,10 +85,16 @@ public class Board extends JPanel implements MouseListener{
 				this.getHumanPlayer().setRow(humanTarget.getRow());
 				this.getHumanPlayer().setColumn(humanTarget.getColumn());
 				
+				
 				if (this.getCellAt(human.getRow(), human.getColumn()).isRoom()) {
-					HumanSuggestionBox box = new HumanSuggestionBox(this.getRooms().get(this.getCellAt(human.getRow(), human.getColumn()).getInitial()));
+					ArrayList<String> temp = new ArrayList<String>();
+					temp.add((this.getRooms().get(this.getCellAt(human.getRow(), human.getColumn()).getInitial())));
+					box = new HumanSuggestionBox(temp);
 					box.setVisible(true);
 					this.humanSolution = box.solution;
+					returnCard = this.handleSuggestion(this.humanSolution, human.getPlayerName(), this.getCellAt(human.getRow(), human.getColumn()));
+					System.out.println(this.humanSolution);
+					System.out.println(returnCard);
 				}
 				
 				
@@ -147,9 +159,11 @@ public class Board extends JPanel implements MouseListener{
 	}
 	
 	public boolean checkAccusation(Solution a) {
-		if (a.person == personSolution && a.room == roomSolution && a.weapon == weaponSolution) {
+		if (personSolution.equals(a.person) && roomSolution.equals(a.room) && weaponSolution.equals(a.weapon)) {
+			System.out.println("true");
 			return true;
 		}
+		System.out.println("false");
 		return false;
 	}
 	
@@ -181,7 +195,6 @@ public class Board extends JPanel implements MouseListener{
 		
 		for (int i = 0; i< this.getComputerPlayers().size(); i++) {
 			this.getComputerPlayers().get(i).setCardsNotSeen(t);
-			System.out.println(this.getComputerPlayers().get(i).getCardsNotSeen());
 		}
 		
 		indexOne = rn.nextInt(9);
@@ -190,7 +203,6 @@ public class Board extends JPanel implements MouseListener{
 		
 		personSolution = dealDeck.get(indexOne).getCardName();
 		dealDeck.remove(indexOne);
-		System.out.println(personSolution);
 		roomSolution = dealDeck.get(indexTwo).getCardName();
 		dealDeck.remove(indexTwo);
 		weaponSolution = dealDeck.get(indexThree).getCardName();
@@ -210,8 +222,7 @@ public class Board extends JPanel implements MouseListener{
 		}
 		
 		for (int i = 0; i< this.getComputerPlayers().size(); i++) {
-			System.out.println(this.getComputerPlayers().get(i).getCardsInHand());
-			System.out.println(this.getComputerPlayers().get(i).getCardsNotSeen());
+			
 		}
 	}
 	
@@ -247,6 +258,7 @@ public class Board extends JPanel implements MouseListener{
 	
 	public void loadCardConfig() {
 		//arraylist creation(s)
+		allRooms = new ArrayList<String>();
 		computerPlayers = new ArrayList<ComputerPlayer>();
 		deck = new ArrayList<Card>();
 		FileReader reader = null;
@@ -297,6 +309,7 @@ public class Board extends JPanel implements MouseListener{
 			input = in.nextLine();
 			Card newCard = new Card(input, CardType.ROOM);
 			deck.add(newCard);
+			allRooms.add(newCard.getCardName());
 		}
 		
 		//Weapon cards added to deck
@@ -393,6 +406,16 @@ public class Board extends JPanel implements MouseListener{
 		catch(BadConfigFormatException e){
 			System.out.println(e.getMessage());
 		}
+		this.roomDoorCell = new HashMap<String,BoardCell>();
+		this.roomDoorCell.put("Ballroom",this.board[4][5]);
+		this.roomDoorCell.put("Billiard room",this.board[3][10]);
+		this.roomDoorCell.put("Lounge",this.board[3][20]);
+		this.roomDoorCell.put("Kitchen", this.board[13][2]);
+		this.roomDoorCell.put("Dining room", this.board[11][21]);
+		this.roomDoorCell.put("Study",this.board[18][5]);
+		this.roomDoorCell.put("Library",this.board[20][7]);
+		this.roomDoorCell.put("Conservatory",this.board[16][14]);
+		this.roomDoorCell.put("Hall", this.board[20][18]);
 	}
 	
 	public void loadRoomConfig() throws BadConfigFormatException{
@@ -541,6 +564,23 @@ public class Board extends JPanel implements MouseListener{
 
 	public Solution getHumanSolution() {
 		return humanSolution;
+	}
+
+	
+	public void setHumanSolution(Solution humanSolution) {
+		this.humanSolution = humanSolution;
+	}
+
+	public Map<String, BoardCell> getRoomDoorCell() {
+		return roomDoorCell;
+	}
+
+	public HumanSuggestionBox getBox() {
+		return box;
+	}
+
+	public ArrayList<String> getAllRooms() {
+		return allRooms;
 	}
 	
 	
