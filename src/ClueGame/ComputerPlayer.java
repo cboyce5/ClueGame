@@ -45,33 +45,41 @@ public class ComputerPlayer extends Player{
 	
 	public void updateCardsNotSeen(Card card) {
 		
-		if (card.getCardType() == CardType.PERSON) {
-			for (int i = 0; i < this.getCardsNotSeen().get(CardType.PERSON).size(); i++) {
-				Card c = this.getCardsNotSeen().get(CardType.PERSON).get(i);
-				if (c.equals(card)) {
-					this.getCardsNotSeen().get(CardType.PERSON).remove(i);
-					return;
+		switch (card.getCardType()) {
+		case PERSON: {
+				for (int i = 0; i < this.getCardsNotSeen().get(CardType.PERSON).size(); i++) {
+					Card c = this.getCardsNotSeen().get(CardType.PERSON).get(i);
+					if (c.equals(card)) {
+						this.getCardsNotSeen().get(CardType.PERSON).remove(i);
+						return;
+					}
 				}
+				break;
 			}
-		}
-		if (card.getCardType() == CardType.ROOM) {
-			for (int i = 0; i < this.getCardsNotSeen().get(CardType.ROOM).size(); i++) {
-				Card c = this.getCardsNotSeen().get(CardType.ROOM).get(i);
-				if (c.equals(card)) {
-					this.getCardsNotSeen().get(CardType.ROOM).remove(i);
-					return;
+		case ROOM: {
+				for (int i = 0; i < this.getCardsNotSeen().get(CardType.ROOM).size(); i++) {
+					Card c = this.getCardsNotSeen().get(CardType.ROOM).get(i);
+					if (c.equals(card)) {
+						this.getCardsNotSeen().get(CardType.ROOM).remove(i);
+						return;
+					}
 				}
+				break;
 			}
-		}
-		if (card.getCardType() == CardType.WEAPON) {
-			for (int i = 0; i < this.getCardsNotSeen().get(CardType.WEAPON).size(); i++) {
-				Card c = this.getCardsNotSeen().get(CardType.WEAPON).get(i);
-				if (c.equals(card)) {
-					this.getCardsNotSeen().get(CardType.WEAPON).remove(i);
-					return;
+		case WEAPON: {
+				for (int i = 0; i < this.getCardsNotSeen().get(CardType.WEAPON).size(); i++) {
+					Card c = this.getCardsNotSeen().get(CardType.WEAPON).get(i);
+					if (c.equals(card)) {
+						this.getCardsNotSeen().get(CardType.WEAPON).remove(i);
+						return;
+					}
 				}
+				break;
 			}
+		default:
+			break;
 		}
+		
 	}
 	
 	public BoardCell getNextCell() {
