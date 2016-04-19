@@ -12,7 +12,7 @@ public class HumanPlayer extends Player{
 		b.calcTargets(b.getCellAt(this.getRow(), this.getColumn()), r);
 		b.setHighlight(true);
 		b.repaint();
-		b.humanTurn = true;
+		b.setHumanTurn(true);
 	}
 
 	

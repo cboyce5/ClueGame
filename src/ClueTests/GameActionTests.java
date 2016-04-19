@@ -63,6 +63,7 @@ public class GameActionTests {
 		//Room preference tests
 		board.calcTargets(14, 2, 1);
 		//for (int i = 0; i < 50; i++ ) {
+		board.getComputerPlayers().get(0).setLastCell(board.getCellAt(15, 2));
 		assertEquals(board.getComputerPlayers().get(0).pickLocation(board.getTargets()),board.getCellAt(13, 2));
 		//}
 		
@@ -202,7 +203,7 @@ public class GameActionTests {
 		//Only one suggestion is possible based on card than have been seen
 		ComputerPlayer comp1 = new ComputerPlayer("",1,1,Color.BLACK);
 		Solution onlyOne = new Solution("Colonel Mustard","Ballroom","Knife");
-		Map<CardType,ArrayList<Card>> one = new HashMap<CardType,ArrayList<Card>>();
+		HashMap<CardType,ArrayList<Card>> one = new HashMap<CardType,ArrayList<Card>>();
 		ArrayList<Card> person = new ArrayList<Card>();
 		person.add(new Card("Colonel Mustard", CardType.PERSON));
 		ArrayList<Card> room = new ArrayList<Card>();

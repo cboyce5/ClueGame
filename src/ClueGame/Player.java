@@ -12,7 +12,7 @@ public class Player {
 	private int column;
 	private Color color;
 	private ArrayList<Card> cardsInHand;
-	private Map<CardType,ArrayList<Card>> cardsNotSeen;
+
 	private int pixelRow;
 	private int pixelColumn;
 	private int pixelHeight = 25;
@@ -24,8 +24,7 @@ public class Player {
 		this.row = row;
 		this.column = column;
 		this.color = color;
-		cardsInHand = new ArrayList<Card>();
-		cardsNotSeen = new HashMap<CardType,ArrayList<Card>>();
+		this.cardsInHand = new ArrayList<Card>();
 		this.pixelColumn = column * 25;
 		this.pixelRow = row * 25;
 	}
@@ -62,13 +61,6 @@ public class Player {
 		return cardsInHand;
 	}
 
-	public void setCardsNotSeen(Map<CardType, ArrayList<Card>> cardsNotSeen) {
-		this.cardsNotSeen = cardsNotSeen;
-	}
-	
-	public Map<CardType, ArrayList<Card>> getCardsNotSeen() {
-		return cardsNotSeen;
-	}
 
 	public String getPlayerName() {
 		return playerName;

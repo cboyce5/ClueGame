@@ -25,6 +25,8 @@ public class ClueControlGUI extends JPanel{
 	private JPanel resultPanel;
 	private JLabel guessResultLabel;
 	private JTextField guessResultText;
+	private JButton nextPlayerButton;
+	private JButton accusationButton;
 	
 	public ClueControlGUI() {
 		setLayout();
@@ -62,10 +64,8 @@ public class ClueControlGUI extends JPanel{
 		//Top panel with label, text and 2 buttons
 		JPanel topPanel = new JPanel();
 		topPanel.setLayout(new GridLayout(1,3));
-		JButton nextPlayerButton = new JButton("Next Player");
-		nextPlayerButton.addActionListener(new NextPlayerListener());
-		JButton accusationButton = new JButton("Make an Accusation");
-		accusationButton.addActionListener(new accusationListener());
+		nextPlayerButton = new JButton("Next Player");
+		accusationButton = new JButton("Make an Accusation");
 		JLabel whoseTurn = new JLabel("Whose Turn?");
 		turnField = new JTextField(20);
 		turnField.setEditable(false);
@@ -95,21 +95,16 @@ public class ClueControlGUI extends JPanel{
 		guessResultText.setText(card);
 		
 	}
-	
-	private class NextPlayerListener implements ActionListener
-	{
-		public void actionPerformed(ActionEvent e) {
-			ClueGame.nextPlayer();
-		}
-	}
-	
-	private class accusationListener implements ActionListener
-	{
-		public void actionPerformed(ActionEvent e) {
-			ClueGame.accusation();
-		}
 
+	public JButton getNextPlayerButton() {
+		return nextPlayerButton;
 	}
+
+	public JButton getAccusationButton() {
+		return accusationButton;
+	}
+	
+	
 
 }
 

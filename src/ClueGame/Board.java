@@ -1,6 +1,8 @@
 package ClueGame;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.FileNotFoundException;
@@ -45,14 +47,20 @@ public class Board extends JPanel implements MouseListener{
 	private String weaponSolution;
 	
 	private boolean highlight;
-	public boolean humanTurn = false;
-	public boolean humanMustFinish = false;
-	public boolean beginningHumanTurn = false;
+	private boolean humanTurn = false;
+	private boolean humanMustFinish = false;
+	private boolean beginningHumanTurn = false;
 	
+	private int roll;
+	
+
+
 	private BoardCell humanTarget;
 	private Solution humanSolution;
 	private HumanSuggestionBox box;
 	public Card returnCard;
+	private ClueControlGUI controlGUI;
+	private static int playerCount = 0;
 
 
 	public Board(String layout, String legend){
@@ -68,6 +76,121 @@ public class Board extends JPanel implements MouseListener{
 		this.roomConfigFile = "ClueLegend.txt";
 		addMouseListener(this);
 	}
+	
+	public void nextPlayer() {
+		if (!isHumanMustFinish()) {
+			Random rn = new Random();
+			roll = rn.nextInt(6) + 1;
+			if (playerCount % 9 == 0) {
+				setBeginningHumanTurn(true);
+				HumanPlayer human = this.getHumanPlayer();
+				setHumanMustFinish(true);
+				human.makeMove(this, roll);
+				
+				if (this.getHumanSolution() != null) {
+					
+					
+					if (this.getHumanSolution().person == human.getPlayerName()) {
+						this.getHumanPlayer().setColumn(this.getRoomDoorCell().get(this.getHumanSolution().room).getColumn());
+						this.getHumanPlayer().setRow(this.getRoomDoorCell().get(this.getHumanSolution().room).getRow());
+						this.repaint();
+					}
+					else {
+						int index = 0;
+						for (int i= 0; i < getComputerPlayers().size(); i++) {
+							if (this.getHumanSolution().person == this.getComputerPlayers().get(i).getPlayerName()) {
+								index = i;
+								break;
+							}
+						}
+						this.getComputerPlayers().get(index).setColumn(this.getRoomDoorCell().get(this.getHumanSolution().room).getColumn());
+						this.getComputerPlayers().get(index).setRow(this.getRoomDoorCell().get(this.getHumanSolution().room).getRow());
+						this.repaint();
+					}
+					
+					
+				}
+				else {
+					controlGUI.update(this.getHumanPlayer(), roll,"","");
+				}
+				
+
+			} else {
+				
+				ComputerPlayer player = this.getComputerPlayers().get(playerCount % 8);
+				player.setLastCell(this.getCellAt(player.getColumn(), player.getRow()));
+				if (player.knowAnswer) {				
+					JOptionPane.showMessageDialog(this, "Computer Accusation: " + player.finalAnswer + ", Result: " + this.checkAccusation(player.finalAnswer), "Computer Solution Result",JOptionPane.INFORMATION_MESSAGE);					
+				}
+				player.makeMove(this, roll);
+				if (player.getNextCell().isRoom()) {
+					Solution playerSolution = player.makeSuggestion(this, player.getNextCell());
+					Card c = this.handleSuggestion(playerSolution, player.getPlayerName(), player.getNextCell());
+					if (c != null) {
+						player.updateCardsNotSeen(c);
+						controlGUI.update(player, roll, playerSolution.toString(), c.getCardName());
+						for (int i = 0; i < this.getComputerPlayers().size(); i++) {
+							System.out.println(this.getComputerPlayers().get(i).getCardsNotSeen());
+						}
+					}
+					else {
+						controlGUI.update(player, roll, playerSolution.toString(), "No New Clue");
+						player.finalAnswer = playerSolution;
+						player.knowAnswer = true;
+					}
+					if (playerSolution.person == this.getHumanPlayer().getPlayerName()) {
+						this.getHumanPlayer().setColumn(this.getRoomDoorCell().get(playerSolution.room).getColumn());
+						this.getHumanPlayer().setRow(this.getRoomDoorCell().get(playerSolution.room).getRow());
+						this.repaint();
+					}
+					else {
+						int index = 0;
+						for (int i= 0; i < this.getComputerPlayers().size(); i++) {
+							if (playerSolution.person == this.getComputerPlayers().get(i).getPlayerName()) {
+								index = i;
+								break;
+							}
+						}
+						this.getComputerPlayers().get(index).setColumn(this.getRoomDoorCell().get(playerSolution.room).getColumn());
+						this.getComputerPlayers().get(index).setRow(this.getRoomDoorCell().get(playerSolution.room).getRow());
+						this.repaint();
+					}
+				}
+				else {
+					controlGUI.update(player, roll, "","");
+				}
+				
+			}
+			playerCount++;
+		}
+		else {
+			JOptionPane.showMessageDialog(this, "You must finish your turn", "Error",JOptionPane.INFORMATION_MESSAGE);
+		}
+		
+		
+		
+	}
+	
+	public void accusation() {
+		if (playerCount % 9 == 1 && this.beginningHumanTurn) {
+			HumanSuggestionBox box = new HumanSuggestionBox(this.getAllRooms());
+			box.setVisible(true);
+			if (this.checkAccusation(box.solution)) {
+				JOptionPane.showMessageDialog(this, "You are correct!", "Game Over",JOptionPane.INFORMATION_MESSAGE);
+			}
+			else {
+				this.humanTurn = false;
+				this.humanMustFinish = false;
+				this.beginningHumanTurn = false;
+				this.repaint();
+				JOptionPane.showMessageDialog(this, "Sorry, that is not correct", "",JOptionPane.INFORMATION_MESSAGE);
+			}
+		}
+		else {
+			JOptionPane.showMessageDialog(this, "It is not your turn", "Error",JOptionPane.INFORMATION_MESSAGE);
+		}
+	}
+	
 	
 	public void mouseClicked(MouseEvent e) {	
 		
@@ -93,8 +216,12 @@ public class Board extends JPanel implements MouseListener{
 					box.setVisible(true);
 					this.humanSolution = box.solution;
 					returnCard = this.handleSuggestion(this.humanSolution, human.getPlayerName(), this.getCellAt(human.getRow(), human.getColumn()));
-					System.out.println(this.humanSolution);
-					System.out.println(returnCard);
+					if (this.returnCard !=  null) {
+						controlGUI.update(this.getHumanPlayer(), roll, this.getHumanSolution().toString(),this.returnCard.getCardName());
+					}
+					else {
+						controlGUI.update(this.getHumanPlayer(), roll,this.getHumanSolution().toString(),"No New Clue");
+					}
 				}
 				
 				
@@ -220,10 +347,7 @@ public class Board extends JPanel implements MouseListener{
 			}
 			count++;
 		}
-		
-		for (int i = 0; i< this.getComputerPlayers().size(); i++) {
-			
-		}
+	
 	}
 	
 	public Card handleSuggestion(Solution suggestion, String accusingPlayer,BoardCell clicked) {
@@ -395,6 +519,7 @@ public class Board extends JPanel implements MouseListener{
 	}
 	
 	public void initialize() {
+		controlGUI = new ClueControlGUI();
 		this.highlight = false;
 		try {
 			loadRoomConfig();
@@ -582,6 +707,32 @@ public class Board extends JPanel implements MouseListener{
 	public ArrayList<String> getAllRooms() {
 		return allRooms;
 	}
+
+	public ClueControlGUI getControlGUI() {
+		return controlGUI;
+	}
 	
-	
+	public boolean isHumanTurn() {
+		return humanTurn;
+	}
+
+	public void setHumanTurn(boolean h) {
+		humanTurn = h;
+	}
+
+	public boolean isHumanMustFinish() {
+		return humanMustFinish;
+	}
+
+	public void setHumanMustFinish(boolean h) {
+		humanMustFinish = h;
+	}
+
+	public boolean isBeginningHumanTurn() {
+		return beginningHumanTurn;
+	}
+
+	public void setBeginningHumanTurn(boolean b) {
+		beginningHumanTurn = b;
+	}
 }
